@@ -1,0 +1,14 @@
+<div class="equipment-type-container">
+  <h2>Equipment Types</h2>
+
+  <!-- Form to add new type -->
+  <form (ngSubmit)="addType()">
+    <input type="text" [(ngModel)]="name" name="name" placeholder="Enter type" />
+    <button type="submit">Add Type</button>
+  </form>
+
+  <!-- List of existing types -->
+  <ul>
+    <li *ngFor="let type of types">{{ type.name }}</li>
+  </ul>
+</div>
