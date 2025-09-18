@@ -7,6 +7,10 @@
     <button type="submit">Add Type</button>
   </form>
 
+  <button type="button" class="btn btn-secondary" [routerLink]="['/items']">
+    Back to Items
+  </button>
+
   <!-- List of existing types -->
   <ul>
     <li *ngFor="let type of types">{{ type.name }}</li>

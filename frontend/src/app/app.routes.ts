@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { EquipmentTypeComponent } from './components/equipment-type/equipment-type.component';
+import { ItemComponent } from './components/item/item.component';
 
 export const routes: Routes = [
-  { path: '', component: EquipmentTypeComponent }
+  { path: '', redirectTo: '/items', pathMatch: 'full' },
+  { path: 'items', component: ItemComponent },
+  { path: 'equipment-type/add', component: EquipmentTypeComponent }
 ];
