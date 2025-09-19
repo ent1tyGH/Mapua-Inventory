@@ -1,4 +1,4 @@
-/* item.component.css */
+/* borrower.component.css (apply same design as items) */
 .container {
   display: flex;
   justify-content: center;
@@ -11,7 +11,13 @@
   padding: 25px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
+}
+
+h2, h3 {
+  color: #C8102E;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 
 .form-group {
@@ -53,6 +59,7 @@ button {
 .submit-btn {
   background: #C8102E;
   color: white;
+  width: 100%; /* full-width for borrower form */
 }
 
 .submit-btn:hover {
@@ -67,10 +74,11 @@ button {
 .reset-btn:hover {
   background: #e6b800;
 }
+
 .checkbox-group {
   display: flex;
   align-items: center;
-  gap: 8px; /* space between checkbox and text */
+  gap: 8px;
   margin: 12px 0;
 }
 
@@ -84,7 +92,5 @@ button {
   font-weight: 600;
   color: #C8102E;
   cursor: pointer;
-  margin: 0; /* removes extra spacing */
+  margin: 0;
 }
-
-

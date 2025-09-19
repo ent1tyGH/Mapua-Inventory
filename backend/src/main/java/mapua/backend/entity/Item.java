@@ -1,6 +1,8 @@
 package mapua.backend.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Item {
@@ -19,7 +21,11 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ConditionStatus conditionStatus;
 
-    private boolean borrowed;
+    private boolean borrowed;  // track if currently borrowed
+
+    // history of borrowing transactions
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BorrowRecord> borrowHistory = new ArrayList<>();
 
 
     // getters & setters
@@ -40,4 +46,7 @@ public class Item {
 
     public boolean isBorrowed() { return borrowed; }
     public void setBorrowed(boolean borrowed) { this.borrowed = borrowed; }
+
+    public List<BorrowRecord> getBorrowHistory() { return borrowHistory; }
+    public void setBorrowHistory(List<BorrowRecord> borrowHistory) { this.borrowHistory = borrowHistory; }
 }

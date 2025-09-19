@@ -21,15 +21,18 @@
       <option>DISPOSED</option>
     </select>
 
-    <label>Borrowed:</label>
-    <input type="checkbox" [(ngModel)]="newItem.borrowed" name="borrowed" />
+    <label>
+      <div class="checkbox-group">
+        <input type="checkbox" [(ngModel)]="newItem.borrowed" name="borrowed" />
+        <label>PLACEHOLDER</label>
+      </div>
+    </label>
 
     <button type="submit">Add Item</button>
-  </form>
-
   <button type="button" class="btn btn-primary" [routerLink]="'/equipment-type/add'">
     Add Equipment Type
   </button>
+  </form>
 
   <!-- List of existing items -->
   <ul>

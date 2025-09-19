@@ -1,0 +1,59 @@
+/* equipment-type.component.css */
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 900px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #C8102E;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+  background: #fafafa;
+}
+
+button {
+  background: #C8102E;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #a50d24;
+}
+
+button.secondary {
+  background: #FFCC00;
+  color: #333;
+}
+
+button.secondary:hover {
+  background: #e6b800;
+}
