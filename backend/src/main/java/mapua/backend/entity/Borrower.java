@@ -1,6 +1,8 @@
 package mapua.backend.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "borrowers")
@@ -8,58 +10,33 @@ public class Borrower {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;   // internal PK
 
-    @Column(name = "student_name", nullable = false)
-    private String studentName; // student name of borrower
+    @Column(unique = true, nullable = false)
+    private String serialNumber;  // NFC/manual input
 
-    @Column(name = "student_number", nullable = false)
-    private String studentNumber; // student number of borrower
+    @Column(nullable = false)
+    private String studentName;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
-    private Item item; // the unit/item borrowed
+    @Column(nullable = false)
+    private String studentNumber;
 
-    private String remarks; // remarks upon return
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BorrowRecord> borrowRecords = new ArrayList<>();
 
-    // getters and setters
-    public Long getId() {
-        return id;
-    }
+    // --- getters and setters ---
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getSerialNumber() { return serialNumber; }
+    public void setSerialNumber(String serialNumber) { this.serialNumber = serialNumber; }
 
-    public String getStudentName() {
-        return studentName;
-    }
+    public String getStudentName() { return studentName; }
+    public void setStudentName(String studentName) { this.studentName = studentName; }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
+    public String getStudentNumber() { return studentNumber; }
+    public void setStudentNumber(String studentNumber) { this.studentNumber = studentNumber; }
 
-    public String getStudentNumber() {
-        return studentNumber;
-    }
-
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
+    public List<BorrowRecord> getBorrowRecords() { return borrowRecords; }
+    public void setBorrowRecords(List<BorrowRecord> borrowRecords) { this.borrowRecords = borrowRecords; }
 }

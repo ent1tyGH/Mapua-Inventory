@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/items")
+@RequestMapping("api/items")
 @RequiredArgsConstructor
 public class ItemController {
 
@@ -37,5 +37,19 @@ public class ItemController {
     @PostMapping("/equipment-types")
     public EquipmentType addEquipmentType(@RequestBody EquipmentType type) {
         return equipmentTypeService.addType(type);
+    }
+
+    @PutMapping("/{id}/borrow")
+    public Item borrowItem(@PathVariable Long id) {
+        Item item = itemService.getItemById(id);
+        item.setBorrowed(true);
+        return itemService.addItem(item);
+    }
+
+    @PutMapping("/{id}/return")
+    public Item returnItem(@PathVariable Long id) {
+        Item item = itemService.getItemById(id);
+        item.setBorrowed(false);
+        return itemService.addItem(item);
     }
 }
