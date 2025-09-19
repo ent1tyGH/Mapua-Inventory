@@ -2,13 +2,16 @@ package mapua.backend.controller;
 
 import mapua.backend.entity.BorrowRecord;
 import mapua.backend.entity.Item;
+import mapua.backend.entity.Borrower;
 import mapua.backend.service.BorrowRecordService;
 import mapua.backend.service.ItemService;
+import mapua.backend.service.BorrowerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/borrow-records")
@@ -16,10 +19,12 @@ public class BorrowRecordController {
 
     private final BorrowRecordService borrowRecordService;
     private final ItemService itemService;
+    private final BorrowerService borrowerService;
 
-    public BorrowRecordController(BorrowRecordService borrowRecordService, ItemService itemService) {
+    public BorrowRecordController(BorrowRecordService borrowRecordService, ItemService itemService, BorrowerService borrowerService) {
         this.borrowRecordService = borrowRecordService;
         this.itemService = itemService;
+        this.borrowerService = borrowerService;
     }
 
     @GetMapping
@@ -33,7 +38,17 @@ public class BorrowRecordController {
         Item item = itemService.getItemById(record.getItem().getId());
 
         if (item == null || item.isBorrowed()) {
-            return ResponseEntity.badRequest().build(); // item not found or already borrowed
+            return ResponseEntity.badRequest().build();
+        }
+
+        // fetch or create borrower
+        Borrower borrower = borrowerService.findBySerialNumber(record.getBorrower().getSerialNumber());
+        if (borrower == null) {
+            borrower = new Borrower();
+            borrower.setSerialNumber(record.getBorrower().getSerialNumber());
+            borrower.setStudentName(record.getBorrower().getStudentName());
+            borrower.setStudentNumber(record.getBorrower().getStudentNumber());
+            borrower = borrowerService.saveBorrower(borrower);
         }
 
         // mark item as borrowed
@@ -41,20 +56,31 @@ public class BorrowRecordController {
         itemService.addItem(item);
 
         record.setItem(item);
+        record.setBorrower(borrower);
+        record.setBorrowedAt(LocalDateTime.now());
+
         BorrowRecord saved = borrowRecordService.saveBorrowRecord(record);
         return ResponseEntity.ok(saved);
     }
 
     @PostMapping("/{id}/return")
-    public ResponseEntity<BorrowRecord> returnBorrowRecord(@PathVariable Long id) {
+    public ResponseEntity<BorrowRecord> returnBorrowRecord(
+            @PathVariable Long id,
+            @RequestBody(required = false) Map<String, String> body) {
+
         BorrowRecord record = borrowRecordService.getBorrowRecordById(id);
 
         if (record == null || record.getReturnedAt() != null) {
-            return ResponseEntity.badRequest().build(); // record not found or already returned
+            return ResponseEntity.badRequest().build();
         }
 
         // mark return time
         record.setReturnedAt(LocalDateTime.now());
+
+        // optional remarks
+        if (body != null && body.containsKey("remarks")) {
+            record.setRemarks(body.get("remarks"));
+        }
 
         // mark item as available
         Item item = record.getItem();

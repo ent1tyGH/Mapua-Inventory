@@ -26,4 +26,9 @@ public class BorrowerService {
     public void deleteBorrower(Long id) {
         borrowerRepository.deleteById(id);
     }
+
+    // --- new method ---
+    public Borrower findBySerialNumber(String serialNumber) {
+        return borrowerRepository.findBySerialNumber(serialNumber).orElse(null);
+    }
 }
