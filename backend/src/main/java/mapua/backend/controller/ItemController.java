@@ -38,4 +38,18 @@ public class ItemController {
     public EquipmentType addEquipmentType(@RequestBody EquipmentType type) {
         return equipmentTypeService.addType(type);
     }
+
+    @PutMapping("/{id}/borrow")
+    public Item borrowItem(@PathVariable Long id) {
+        Item item = itemService.getItemById(id);
+        item.setBorrowed(true);
+        return itemService.addItem(item);
+    }
+
+    @PutMapping("/{id}/return")
+    public Item returnItem(@PathVariable Long id) {
+        Item item = itemService.getItemById(id);
+        item.setBorrowed(false);
+        return itemService.addItem(item);
+    }
 }
