@@ -21,6 +21,9 @@
       <option>DISPOSED</option>
     </select>
 
+    <label>Borrowed:</label>
+    <input type="checkbox" [(ngModel)]="newItem.borrowed" name="borrowed" />
+
     <button type="submit">Add Item</button>
   </form>
 
@@ -30,40 +33,9 @@
 
   <!-- List of existing items -->
   <ul>
-    <li *ngFor="let item of items" class="item-entry">
+    <li *ngFor="let item of items">
       {{ item.equipmentType?.name }} - {{ item.specifications }} - {{ item.location }}
-      ({{ item.conditionStatus }})
-
-      <!-- Borrowed status with hover -->
-      <span
-        *ngIf="item.borrowed"
-        class="borrowed-label"
-        (mouseenter)="hoveredItem = item.id!"
-        (mouseleave)="hoveredItem = null">
-        Borrowed
-      </span>
-      <span *ngIf="!item.borrowed" class="available-label">
-        Available
-      </span>
-
-      <!-- Borrower details tooltip -->
-      <div
-        *ngIf="item.borrowed && hoveredItem === item.id && item.borrowRecords?.length"
-        class="borrower-tooltip">
-        <small *ngIf="item.borrowRecords[item.borrowRecords.length - 1] as lastRecord">
-          By: {{ lastRecord.borrower?.studentName }}
-          ({{ lastRecord.borrower?.studentNumber }})
-          on {{ lastRecord.borrowedAt | date:'short' }}
-        </small>
-      </div>
-
-      <!-- Borrow / Return actions -->
-      <button *ngIf="!item.borrowed" [routerLink]="['/borrow', item.id]">
-        Borrow
-      </button>
-      <button *ngIf="item.borrowed" (click)="returnItem(item)">
-        Return
-      </button>
+      ({{ item.conditionStatus }}) - Borrowed: {{ item.borrowed }}
     </li>
   </ul>
 </div>
