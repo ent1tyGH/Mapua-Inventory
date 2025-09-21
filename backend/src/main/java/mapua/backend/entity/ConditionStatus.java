@@ -2,5 +2,6 @@ package mapua.backend.entity;
 
 public enum ConditionStatus {
     WORKING,
-    DEFECTIVE
+    NEEDS_REPAIR,
+    DISPOSED
 }
