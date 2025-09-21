@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BorrowerService, Borrower } from '../services/borrower.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
 selector: 'app-borrower',
+imports: ['FormsModule'],
 templateUrl: './borrower.component.html',
 styleUrls: ['./borrower.component.css']
 })

@@ -87,4 +87,95 @@ button {
   margin: 0; /* removes extra spacing */
 }
 
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.item-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.item-card h3 {
+  margin-top: 0;
+  color: #C8102E; /* Mapúa red */
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.badge-working {
+  background-color: #28a745; /* green */
+}
+
+.badge-repair {
+  background-color: #ffc107; /* yellow */
+  color: #212529;
+}
+
+.badge-disposed {
+  background-color: #dc3545; /* red */
+}
+
+.badge-yes {
+  background-color: #C8102E; /* Mapúa red */
+}
+
+.badge-no {
+  background-color: #6c757d; /* gray */
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-id {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #666;
+  background: #f1f1f1;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+button.borrow-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+button.borrow-btn:hover {
+  background: #218838;
+}
+
+button.borrow-btn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
 

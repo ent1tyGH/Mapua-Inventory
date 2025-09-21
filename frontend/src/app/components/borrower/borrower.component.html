@@ -1,41 +1,31 @@
 <div class="container">
   <div class="form-card">
-    <h2>Borrower Records</h2>
+    <h2>Borrow Item</h2>
 
-    <form (ngSubmit)="addBorrowerRecord()">
-      <div class="form-group">
-        <label for="borrowerId">Borrower ID</label>
-        <input type="number" id="borrowerId" [(ngModel)]="newBorrower.borrowerId" name="borrowerId" required />
-      </div>
+    <!-- Success/Info message -->
+    <div *ngIf="successMessage" class="toast-message">
+      {{ successMessage }}
+    </div>
 
-      <div class="form-group">
-        <label for="itemId">Item ID</label>
-        <input type="number" id="itemId" [(ngModel)]="newBorrower.itemId" name="itemId" required />
-      </div>
-
-      <div class="form-group">
-        <label for="borrowedAt">Borrowed At</label>
-        <input type="datetime-local" id="borrowedAt" [(ngModel)]="newBorrower.borrowedAt" name="borrowedAt" required />
-      </div>
-
-      <div class="form-group">
-        <label for="returnedAt">Returned At</label>
-        <input type="datetime-local" id="returnedAt" [(ngModel)]="newBorrower.returnedAt" name="returnedAt" />
-      </div>
-
-      <div class="form-group">
-        <label for="remarks">Remarks</label>
-        <textarea id="remarks" [(ngModel)]="newBorrower.remarks" name="remarks"></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn">Save Record</button>
+    <!-- Serial input -->
+    <form (ngSubmit)="checkBorrower()">
+      <label for="serialNumber">Serial Number:</label>
+      <input id="serialNumber" [(ngModel)]="serialNumber" name="serialNumber" required />
+      <button type="submit">Check</button>
     </form>
 
-    <h3>Existing Borrow Records</h3>
-    <ul>
-      <li *ngFor="let b of borrowers">
-        Borrower: {{ b.borrowerId }} | Item: {{ b.itemId }} | Borrowed: {{ b.borrowedAt }} | Returned: {{ b.returnedAt }} | {{ b.remarks }}
-      </li>
-    </ul>
+    <!-- If borrower not found -->
+    <div *ngIf="showNewBorrowerForm" class="new-borrower-form">
+      <h3>New Borrower Info</h3>
+      <form (ngSubmit)="saveBorrower()">
+        <label>Student Name:</label>
+        <input type="text" [(ngModel)]="newBorrower.studentName" name="studentName" required />
+
+        <label>Student Number:</label>
+        <input type="text" [(ngModel)]="newBorrower.studentNumber" name="studentNumber" required />
+
+        <button type="submit">Save Borrower</button>
+      </form>
+    </div>
   </div>
 </div>

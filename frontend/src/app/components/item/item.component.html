@@ -21,11 +21,6 @@
         <option>DISPOSED</option>
       </select>
 
-      <div class="checkbox-group">
-        <input type="checkbox" [(ngModel)]="newItem.borrowed" name="borrowed" />
-        <label>PLACEHOLDER</label>
-      </div>
-
       <button type="submit">Add Item</button>
       <button type="button" class="btn btn-primary" [routerLink]="'/equipment-type/add'">
         Add Equipment Type
@@ -33,11 +28,44 @@
     </form>
 
     <!-- List of existing items -->
-    <ul>
-      <li *ngFor="let item of items">
-        {{ item.equipmentType?.name }} - {{ item.specifications }} - {{ item.location }}
-        ({{ item.conditionStatus }}) - Borrowed: {{ item.borrowed }}
-      </li>
-    </ul>
+    <!-- List of existing items -->
+    <div class="item-list">
+      <div class="item-card" *ngFor="let item of items">
+        <h3>{{ item.equipmentType?.name }} (ID: {{ item.id }})</h3>
+        <p><strong>Specs:</strong> {{ item.specifications }}</p>
+        <p><strong>Location:</strong> {{ item.location }}</p>
+
+        <p>
+          <strong>Condition:</strong>
+          <span class="badge"
+                [ngClass]="{
+              'badge-working': item.conditionStatus === 'WORKING',
+              'badge-repair': item.conditionStatus === 'NEEDS_REPAIR',
+              'badge-disposed': item.conditionStatus === 'DISPOSED'
+            }">
+        {{ item.conditionStatus }}
+      </span>
+        </p>
+
+        <p>
+          <strong>Borrowed:</strong>
+          <span class="badge"
+                [ngClass]="{
+              'badge-yes': item.borrowed,
+              'badge-no': !item.borrowed
+            }">
+        {{ item.borrowed ? 'Yes' : 'No' }}
+      </span>
+        </p>
+
+        <!-- Borrow button -->
+        <button
+          class="borrow-btn"
+          [routerLink]="['/borrowers']"
+          [queryParams]="{ itemId: item.id }">
+          Borrow
+        </button>
+      </div>
+    </div>
   </div>
 </div>
