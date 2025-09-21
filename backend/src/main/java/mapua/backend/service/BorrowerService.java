@@ -27,8 +27,7 @@ public class BorrowerService {
         borrowerRepository.deleteById(id);
     }
 
-    // --- new method ---
-    public Borrower findBySerialNumber(String serialNumber) {
+    public Borrower getBorrowerBySerial(String serialNumber) {
         return borrowerRepository.findBySerialNumber(serialNumber).orElse(null);
     }
 }

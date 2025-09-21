@@ -57,4 +57,11 @@ export class ItemComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
+
+  borrowItem(item: any) {
+    // Navigate to borrowers form or call your borrow service
+    console.log("Borrowing item:", item);
+    // Example: this.router.navigate(['/borrow', item.id]);
+  }
+
 }

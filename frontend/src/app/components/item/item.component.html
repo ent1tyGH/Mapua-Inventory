@@ -1,41 +1,71 @@
-<div class="item-container">
-  <h2>Items</h2>
+<div class="container">
+  <div class="form-card">
+    <h2>Items</h2>
 
-  <!-- Form to add new item -->
-  <form (ngSubmit)="addItem()">
-    <label>Equipment Type:</label>
-    <select [(ngModel)]="newItem.equipmentType.id" name="equipmentTypeId" required>
-      <option *ngFor="let type of equipmentTypes" [value]="type.id">{{ type.name }}</option>
-    </select>
+    <form (ngSubmit)="addItem()">
+      <label>Equipment Type:</label>
+      <select [(ngModel)]="newItem.equipmentType.id" name="equipmentTypeId" required>
+        <option *ngFor="let type of equipmentTypes" [value]="type.id">{{ type.name }}</option>
+      </select>
 
-    <label>Specifications:</label>
-    <input type="text" [(ngModel)]="newItem.specifications" name="specifications" required />
+      <label>Specifications:</label>
+      <input type="text" [(ngModel)]="newItem.specifications" name="specifications" required />
 
-    <label>Location:</label>
-    <input type="text" [(ngModel)]="newItem.location" name="location" required />
+      <label>Location:</label>
+      <input type="text" [(ngModel)]="newItem.location" name="location" required />
 
-    <label>Condition:</label>
-    <select [(ngModel)]="newItem.conditionStatus" name="conditionStatus" required>
-      <option>WORKING</option>
-      <option>NEEDS_REPAIR</option>
-      <option>DISPOSED</option>
-    </select>
+      <label>Condition:</label>
+      <select [(ngModel)]="newItem.conditionStatus" name="conditionStatus" required>
+        <option>WORKING</option>
+        <option>NEEDS_REPAIR</option>
+        <option>DISPOSED</option>
+      </select>
 
-    <label>Borrowed:</label>
-    <input type="checkbox" [(ngModel)]="newItem.borrowed" name="borrowed" />
+      <button type="submit">Add Item</button>
+      <button type="button" class="btn btn-primary" [routerLink]="'/equipment-type/add'">
+        Add Equipment Type
+      </button>
+    </form>
 
-    <button type="submit">Add Item</button>
-  </form>
+    <!-- List of existing items -->
+    <!-- List of existing items -->
+    <div class="item-list">
+      <div class="item-card" *ngFor="let item of items">
+        <h3>{{ item.equipmentType?.name }} (ID: {{ item.id }})</h3>
+        <p><strong>Specs:</strong> {{ item.specifications }}</p>
+        <p><strong>Location:</strong> {{ item.location }}</p>
 
-  <button type="button" class="btn btn-primary" [routerLink]="'/equipment-type/add'">
-    Add Equipment Type
-  </button>
+        <p>
+          <strong>Condition:</strong>
+          <span class="badge"
+                [ngClass]="{
+              'badge-working': item.conditionStatus === 'WORKING',
+              'badge-repair': item.conditionStatus === 'NEEDS_REPAIR',
+              'badge-disposed': item.conditionStatus === 'DISPOSED'
+            }">
+        {{ item.conditionStatus }}
+      </span>
+        </p>
 
-  <!-- List of existing items -->
-  <ul>
-    <li *ngFor="let item of items">
-      {{ item.equipmentType?.name }} - {{ item.specifications }} - {{ item.location }}
-      ({{ item.conditionStatus }}) - Borrowed: {{ item.borrowed }}
-    </li>
-  </ul>
+        <p>
+          <strong>Borrowed:</strong>
+          <span class="badge"
+                [ngClass]="{
+              'badge-yes': item.borrowed,
+              'badge-no': !item.borrowed
+            }">
+        {{ item.borrowed ? 'Yes' : 'No' }}
+      </span>
+        </p>
+
+        <!-- Borrow button -->
+        <button
+          class="borrow-btn"
+          [routerLink]="['/borrowers']"
+          [queryParams]="{ itemId: item.id }">
+          Borrow
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

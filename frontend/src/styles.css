@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+/* Sidebar */
+.sidebar {
+  width: 220px; /* keep your sidebar width */
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #c8102e; /* Mapúa red */
+  color: white;
+  padding: 20px 10px;
+  font-weight: bold;
+}
+
+/* Main content */
+.main-content {
+  margin-left: 240px; /* push content away from sidebar */
+  padding: 30px;      /* add breathing space */
+}
+
+/* Optional: style form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* spacing between inputs */
+  max-width: 400px;
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+form input,
+form select,
+form button {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+form button {
+  background-color: #c8102e;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+form button:hover {
+  background-color: #a50f24;
+}

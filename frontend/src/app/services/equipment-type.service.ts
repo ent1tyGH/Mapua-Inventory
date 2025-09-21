@@ -12,7 +12,7 @@ export interface EquipmentType {
   providedIn: 'root'
 })
 export class EquipmentTypeService {
-  private baseUrl = 'http://localhost:8080/items/equipment-types';
+  private baseUrl = 'http://localhost:8080/api/equipment-types';
 
   constructor(private http: HttpClient) { }
 

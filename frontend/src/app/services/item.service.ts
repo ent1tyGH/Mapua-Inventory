@@ -17,7 +17,7 @@ export interface Item {
   providedIn: 'root'
 })
 export class ItemService {
-  private baseUrl = 'http://localhost:8080/items'; // Adjust if your backend uses a different path
+  private baseUrl = 'http://localhost:8080/api/items'; // Adjust if your backend uses a different path
 
   constructor(private http: HttpClient) {}
 

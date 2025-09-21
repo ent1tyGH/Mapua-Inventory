@@ -1,18 +1,38 @@
-<div class="equipment-type-container">
-  <h2>Equipment Types</h2>
+<div class="container">
+  <div class="table-card">
+    <h2>Equipment Types</h2>
 
-  <!-- Form to add new type -->
-  <form (ngSubmit)="addType()">
-    <input type="text" [(ngModel)]="name" name="name" placeholder="Enter type" />
-    <button type="submit">Add Type</button>
-  </form>
+    <!-- Form to add new type -->
+    <form (ngSubmit)="addType()" class="form-row">
+      <input type="text" [(ngModel)]="name" name="name" placeholder="Enter type" />
+      <button type="submit">Add Type</button>
+    </form>
 
-  <button type="button" class="btn btn-secondary" [routerLink]="['/items']">
-    Back to Items
-  </button>
+    <br />
 
-  <!-- List of existing types -->
-  <ul>
-    <li *ngFor="let type of types">{{ type.name }}</li>
-  </ul>
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" [routerLink]="['/items']">
+        Back to Items
+      </button>
+      <button type="button" class="btn btn-secondary" [routerLink]="['/borrowers']">
+        Back to Borrow
+      </button>
+    </div>
+
+    <!-- List of existing types -->
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Type Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let type of types; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ type.name }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

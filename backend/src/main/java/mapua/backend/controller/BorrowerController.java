@@ -22,6 +22,15 @@ public class BorrowerController {
         return borrowerService.getAllBorrowers();
     }
 
+    @GetMapping("/serial/{serialNumber}")
+    public ResponseEntity<Borrower> getBorrowerBySerial(@PathVariable String serialNumber) {
+        Borrower borrower = borrowerService.getBorrowerBySerial(serialNumber);
+        if (borrower == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(borrower);
+    }
+
     @PostMapping
     public Borrower createBorrower(@RequestBody Borrower borrower) {
         return borrowerService.saveBorrower(borrower);

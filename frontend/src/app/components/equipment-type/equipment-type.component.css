@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 600px;
+}
+
+h2 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th {
+  background: #C8102E;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  border-radius: 6px 6px 0 0;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:nth-child(even) {
+  background: #fafafa;
+}
+
+button {
+  background: #C8102E;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #a50d24;
+}
+
+.btn-secondary {
+  background: #FFCC00;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #e6b800;
+}
+
+.button-group {
+  margin: 10px 0 20px 0;
+  display: flex;
+  gap: 10px;
+}
