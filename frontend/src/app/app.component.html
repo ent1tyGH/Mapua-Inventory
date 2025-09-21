@@ -1,12 +1,26 @@
-<div class="sidebar">
-  <h3>Mapúa Makati Inventory</h3>
-  <ul>
-    <li><a routerLink="/items">Items</a></li>
-    <li><a routerLink="/equipment-types">Equipment Types</a></li>
-    <li><a routerLink="/borrower">Borrowers</a></li>
-  </ul>
-</div>
+<div class="app-layout">
+  <div class="sidebar">
+    <h2>Mapúa Makati Inventory</h2>
+    <ul>
+      <li>
+        <a [routerLink]="['/items']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Items
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/equipment-types']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Equipment Types
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/borrowers']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Borrowers
+        </a>
+      </li>
+    </ul>
+  </div>
 
-<div class="main-content">
-  <router-outlet></router-outlet>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </div>

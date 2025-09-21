@@ -7,6 +7,6 @@ import { BorrowerComponent } from './components/borrower/borrower.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/items', pathMatch: 'full' },
   { path: 'items', component: ItemComponent },
-  { path: 'equipment-type/add', component: EquipmentTypeComponent },
-  { path: 'borrower', component: BorrowerComponent },
+  { path: 'equipment-types', component: EquipmentTypeComponent },
+  { path: 'borrowers', component: BorrowerComponent },
 ];

@@ -15,7 +15,7 @@ remarks?: string;
 providedIn: 'root'
 })
 export class BorrowerService {
-private apiUrl = 'http://localhost:8080/borrowers'; // adjust backend URL
+private apiUrl = 'http://localhost:8080/api/borrowers'; // adjust backend URL
 
 constructor(private http: HttpClient) {}
 

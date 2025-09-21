@@ -1,22 +1,26 @@
-<div class="equipment-type-container">
-  <h2>Equipment Types</h2>
+<div class="container">
+  <div class="form-card">
+    <h2>Equipment Types</h2>
 
-  <!-- Form to add new type -->
-  <form (ngSubmit)="addType()">
-    <input type="text" [(ngModel)]="name" name="name" placeholder="Enter type" />
-    <button type="submit">Add Type</button>
-  </form>
-<br>
-  <button type="button" class="btn btn-secondary" [routerLink]="['/items']">
-    Back to Items
-  </button>
+    <!-- Form to add new type -->
+    <form (ngSubmit)="addType()">
+      <input type="text" [(ngModel)]="name" name="name" placeholder="Enter type" />
+      <button type="submit">Add Type</button>
+    </form>
 
-  <button type="button" class="btn btn-secondary" [routerLink]="['/borrower']">
-    Back to Borrow
-  </button>
+    <br>
 
-  <!-- List of existing types -->
-  <ul>
-    <li *ngFor="let type of types">{{ type.name }}</li>
-  </ul>
+    <button type="button" class="btn btn-secondary" [routerLink]="['/items']">
+      Back to Items
+    </button>
+
+    <button type="button" class="btn btn-secondary" [routerLink]="['/borrowers']">
+      Back to Borrow
+    </button>
+
+    <!-- List of existing types -->
+    <ul>
+      <li *ngFor="let type of types">{{ type.name }}</li>
+    </ul>
+  </div>
 </div>
