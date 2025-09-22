@@ -1,7 +1,12 @@
+import { Borrower } from './borrower.model';
+
 export interface BorrowRecord {
-  borrowerId: number;
-  itemId: number;
+  id?: number;
+  borrower: Borrower;
+  item: {
+    id: number;
+  };
   borrowedAt: string;
-  returnedAt?: string | null;
-  remarks?: string;
+  returnedAt: string | null;
+  remarks: string;
 }
