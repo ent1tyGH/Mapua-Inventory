@@ -1,5 +1,6 @@
 package mapua.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Item {
 
     // history of borrowing transactions
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<BorrowRecord> borrowHistory = new ArrayList<>();
 
 
