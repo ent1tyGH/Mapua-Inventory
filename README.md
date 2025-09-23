@@ -34,7 +34,7 @@ Body (raw JSON):
   },  
   "borrowedAt": "2025-09-23T01:00:00",  
   "returnedAt": null,  
-  "remarks": "Testing existing borrower"  
+  "remarks": ""  
 }  
 
 ### Return an item
