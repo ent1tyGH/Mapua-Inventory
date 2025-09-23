@@ -1,9 +1,9 @@
 # Mapua-Inventory
-# This is a placeholder ReadMe\
+# This is a placeholder ReadMe
 ## The contents are for testing the entity relationships using Postman API
 ### **Create a borrow record (new user) This test works when doing it from Angular**
 Method: POST\
-URL: http://localhost:8080/api/borrow-records\
+URL: http://localhost:8080/api/borrow-records  
 Headers: Content-Type: application/json\
 Body (raw JSON):\
 {\
