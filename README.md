@@ -2,6 +2,7 @@
 # This is a placeholder ReadMe
 ## Errors and Working Features of the App currently
 ### Errors:
+- Creating a borrow-record as a new Borrower shows "Error borrowing item. Please try again." however, the borrow-record is still created in the database  
 - Creating a borrow-record with an existing user is not functional from Angular  
 - Creating a borrow-record with an existing user using Postman API returns an infinite loop response however it does successfully create the record in the database  
 - Returning the item from Angular has not been implemented  
