@@ -1,6 +1,6 @@
 # Mapua-Inventory
 # This is a placeholder ReadMe
-## Errors and Working Features of the App currently
+## Errors and Working Features of the App currently (Borrow-Record Branch)
 ### Errors:
 - Creating a borrow-record as a new Borrower shows "Error borrowing item. Please try again." however, the borrow-record is still created in the database  
 - Creating a borrow-record with an existing user is not functional from Angular  
