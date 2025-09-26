@@ -43,6 +43,7 @@
   flex: 1;
   padding: 20px;
   background: #f9f9f9;
+  margin-left: 250px;
 }
 
 .sidebar a.active {

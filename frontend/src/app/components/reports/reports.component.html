@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="form-card">
+    <h2>Daily Reports</h2>
+
+    <button class="btn mapua-btn mb-3" (click)="goToNewReport()">
+      Add New Report
+    </button>
+
+    <!-- Empty state -->
+    <div *ngIf="reports.length === 0" class="text-center text-muted">
+      No Reports Yet
+    </div>
+
+    <!-- Card list -->
+    <div *ngFor="let r of reports" class="report-card">
+      <div class="report-header">
+        <span class="badge bg-secondary">#{{ r.id }}</span>
+        <span class="report-date">{{ r.createdAt | date:'medium' }}</span>
+      </div>
+      <div class="report-body">
+        {{ r.reportText }}
+      </div>
+    </div>
+  </div>
+</div>
