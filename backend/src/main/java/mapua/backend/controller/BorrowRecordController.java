@@ -42,7 +42,7 @@ public class BorrowRecordController {
         }
 
         // fetch or create borrower
-        Borrower borrower = borrowerService.findBySerialNumber(record.getBorrower().getSerialNumber());
+        Borrower borrower = borrowerService.getBorrowerBySerial(record.getBorrower().getSerialNumber());
         if (borrower == null) {
             borrower = new Borrower();
             borrower.setSerialNumber(record.getBorrower().getSerialNumber());
