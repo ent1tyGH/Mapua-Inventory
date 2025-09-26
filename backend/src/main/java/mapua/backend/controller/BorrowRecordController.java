@@ -42,14 +42,7 @@ public class BorrowRecordController {
         }
 
         // fetch or create borrower
-        Borrower borrower = null;
-
-        if (record.getBorrower().getId() != null) {
-            borrower = borrowerService.getBorrowerById(record.getBorrower().getId());
-        } else if (record.getBorrower().getSerialNumber() != null) {
-            borrower = borrowerService.getBorrowerBySerial(record.getBorrower().getSerialNumber());
-        }
-
+        Borrower borrower = borrowerService.getBorrowerBySerial(record.getBorrower().getSerialNumber());
         if (borrower == null) {
             borrower = new Borrower();
             borrower.setSerialNumber(record.getBorrower().getSerialNumber());
@@ -57,7 +50,6 @@ public class BorrowRecordController {
             borrower.setStudentNumber(record.getBorrower().getStudentNumber());
             borrower = borrowerService.saveBorrower(borrower);
         }
-
 
         // mark item as borrowed
         item.setBorrowed(true);
