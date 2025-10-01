@@ -27,8 +27,6 @@
       </button>
     </form>
 
-    <!-- List of existing items -->
-    <!-- List of existing items -->
     <div class="item-list">
       <div class="item-card" *ngFor="let item of items">
         <h3>{{ item.equipmentType?.name }} (ID: {{ item.id }})</h3>
@@ -58,13 +56,44 @@
       </span>
         </p>
 
-        <!-- Borrow button -->
         <button
           class="borrow-btn"
           [routerLink]="['/borrowers']"
           [queryParams]="{ itemId: item.id }">
           Borrow
         </button>
+
+        <button class="btn btn-secondary" (click)="editItem(item)">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+
+        <div *ngIf="isEditing && selectedItem?.id === item.id" class="edit-form">
+          <hr>
+          <h3>Update Item</h3>
+          <form (ngSubmit)="updateItem()">
+
+            <label>Equipment Type:</label>
+            <select [(ngModel)]="selectedItem!.equipmentType.id" name="updateEquipmentTypeId" required>
+              <option *ngFor="let type of equipmentTypes" [value]="type.id">{{ type.name }}</option>
+            </select>
+
+            <label>Specifications:</label>
+            <input type="text" [(ngModel)]="selectedItem!.specifications" name="updateSpecifications" required />
+
+            <label>Location:</label>
+            <input type="text" [(ngModel)]="selectedItem!.location" name="updateLocation" required />
+
+            <label>Condition:</label>
+            <select [(ngModel)]="selectedItem!.conditionStatus" name="updateConditionStatus" required>
+              <option>WORKING</option>
+              <option>NEEDS_REPAIR</option>
+              <option>DISPOSED</option>
+            </select>
+
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <button type="button" class="btn btn-light" (click)="cancelEdit()">Cancel</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
