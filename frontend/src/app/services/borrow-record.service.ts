@@ -20,8 +20,8 @@ export class BorrowRecordService {
     return this.http.get<BorrowRecord>(`${this.apiUrl}/${id}`);
   }
 
-  addBorrowRecord(record: BorrowRecord): Observable<BorrowRecord> {
-    return this.http.post<BorrowRecord>(this.apiUrl, record);
+  addBorrowRecord(record: any): Observable<BorrowRecord> {
+    return this.http.post<BorrowRecord>(`${this.apiUrl}`, record);
   }
 
   updateBorrowRecord(id: number, record: BorrowRecord): Observable<BorrowRecord> {

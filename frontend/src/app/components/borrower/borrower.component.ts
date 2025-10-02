@@ -106,26 +106,19 @@ export class BorrowerComponent {
   createBorrowRecord(borrower: Borrower) {
     if (!this.itemId) return;
 
-    // Build record payload for backend
-    const record: BorrowRecord = {
-      borrower: {
-        id: borrower.id,                      // may be undefined if new
-        serialNumber: borrower.serialNumber,  // always required
-        studentName: borrower.studentName,    // only needed if new
-        studentNumber: borrower.studentNumber // only needed if new
-      },
-      item: { id: this.itemId },              // backend needs item object with id
-      borrowedAt: new Date().toISOString(),
-      returnedAt: null,
-      remarks: ''
+    // Build DTO payload for backend
+    const payload = {
+      itemId: this.itemId,
+      serialNumber: borrower.serialNumber,
+      studentName: borrower.studentName,
+      studentNumber: borrower.studentNumber
     };
 
-    console.log('Sending record to backend:', record);
+    console.log('Sending DTO to backend:', payload);
 
-    this.borrowRecordService.addBorrowRecord(record).subscribe({
+    this.borrowRecordService.addBorrowRecord(payload).subscribe({
       next: saved => {
         this.successMessage += ` Item successfully borrowed!`;
-        // hide message after 3s
         setTimeout(() => this.successMessage = '', 3000);
       },
       error: err => {
