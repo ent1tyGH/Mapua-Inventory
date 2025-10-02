@@ -24,6 +24,10 @@ export class BorrowRecordService {
     return this.http.post<BorrowRecord>(`${this.apiUrl}`, record);
   }
 
+  returnItem(itemId: number, payload: any) {
+    return this.http.post(`${this.apiUrl}/${itemId}/return`, payload);
+  }
+
   updateBorrowRecord(id: number, record: BorrowRecord): Observable<BorrowRecord> {
     return this.http.put<BorrowRecord>(`${this.apiUrl}/${id}`, record);
   }

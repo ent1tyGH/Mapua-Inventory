@@ -7,6 +7,7 @@ import mapua.backend.service.BorrowRecordService;
 import mapua.backend.service.ItemService;
 import mapua.backend.service.BorrowerService;
 import mapua.backend.dto.BorrowRecordRequest;
+import mapua.backend.dto.ReturnRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,32 +66,17 @@ public class BorrowRecordController {
         return ResponseEntity.status(201).body(saved);
     }
 
-    @PostMapping("/{id}/return")
-    public ResponseEntity<BorrowRecord> returnBorrowRecord(
-            @PathVariable Long id,
-            @RequestBody(required = false) Map<String, String> body) {
+    @PostMapping("/{itemId}/return")
+    public ResponseEntity<?> returnBorrowRecord(
+            @PathVariable Long itemId,
+            @RequestBody ReturnRequest request) {
 
-        BorrowRecord record = borrowRecordService.getBorrowRecordById(id);
-
-        if (record == null || record.getReturnedAt() != null) {
-            return ResponseEntity.badRequest().build();
+        try {
+            BorrowRecord updated = borrowRecordService.completeReturn(itemId, request);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        // mark return time
-        record.setReturnedAt(LocalDateTime.now());
-
-        // optional remarks
-        if (body != null && body.containsKey("remarks")) {
-            record.setRemarks(body.get("remarks"));
-        }
-
-        // mark item as available
-        Item item = record.getItem();
-        item.setBorrowed(false);
-        itemService.addItem(item);
-
-        BorrowRecord updated = borrowRecordService.saveBorrowRecord(record);
-        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")

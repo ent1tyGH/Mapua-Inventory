@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="form-card">
+    <h2>Return Item</h2>
+
+    <!-- Success/Info message -->
+    <div *ngIf="successMessage" class="toast-message success">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="toast-message error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Return form -->
+    <form (ngSubmit)="submitReturn()" #returnForm="ngForm">
+      <label for="serialNumber">Serial Number:</label>
+      <input
+        id="serialNumber"
+        type="text"
+        [(ngModel)]="serialNumber"
+        name="serialNumber"
+        required
+      />
+
+      <label for="remarks">Remarks:</label>
+      <textarea
+        id="remarks"
+        [(ngModel)]="remarks"
+        name="remarks"
+        rows="4"
+        placeholder="Enter remarks about the return"
+        required
+      ></textarea>
+
+      <button type="submit" class="btn-confirm" [disabled]="returnForm.invalid">
+        Submit Return
+      </button>
+    </form>
+  </div>
+</div>
