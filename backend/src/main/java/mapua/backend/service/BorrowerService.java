@@ -23,6 +23,10 @@ public class BorrowerService {
         return borrowerRepository.save(borrower);
     }
 
+    public Borrower getBorrowerById(Long id) {
+        return borrowerRepository.findById(id).orElse(null);
+    }
+
     public void deleteBorrower(Long id) {
         borrowerRepository.deleteById(id);
     }

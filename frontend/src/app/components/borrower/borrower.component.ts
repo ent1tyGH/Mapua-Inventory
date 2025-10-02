@@ -5,6 +5,7 @@ import { BorrowerService } from '../../services/borrower.service';
 import { BorrowRecordService } from '../../services/borrow-record.service';
 import { Borrower } from '../../models/borrower.model';
 import { BorrowRecord } from '../../models/borrow-record.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-borrower',
@@ -20,7 +21,7 @@ export class BorrowerComponent {
   itemId?: number; // set this when navigating to borrow page
 
   newBorrower: Borrower = {
-    id: 0,
+    id: undefined,
     serialNumber: '',
     studentName: '',
     studentNumber: ''
@@ -28,8 +29,23 @@ export class BorrowerComponent {
 
   constructor(
     private borrowerService: BorrowerService,
-    private borrowRecordService: BorrowRecordService
-  ) {}
+    private borrowRecordService: BorrowRecordService,
+    private route: ActivatedRoute
+  ) {
+    this.route.queryParams.subscribe((params: { [key: string]: any }) => {
+      this.itemId = params['itemId'] ? +params['itemId'] : undefined;
+    });
+  }
+
+  ngOnInit() {
+      // pull itemId from query params
+      this.route.queryParams.subscribe(params => {
+        if (params['itemId']) {
+          this.itemId = +params['itemId']; // convert string → number
+          console.log('Borrowing item with id:', this.itemId);
+        }
+      });
+    }
 
   // Check if borrower exists
   checkBorrower() {
@@ -90,19 +106,25 @@ export class BorrowerComponent {
   createBorrowRecord(borrower: Borrower) {
     if (!this.itemId) return;
 
-    const record: BorrowRecord = {
-      borrowerId: borrower.id!,
+    // Build DTO payload for backend
+    const payload = {
       itemId: this.itemId,
-      borrowedAt: new Date().toISOString(),
-      returnedAt: '' // initially empty
+      serialNumber: borrower.serialNumber,
+      studentName: borrower.studentName,
+      studentNumber: borrower.studentNumber
     };
 
-    this.borrowRecordService.addBorrowRecord(record).subscribe({
+    console.log('Sending DTO to backend:', payload);
+
+    this.borrowRecordService.addBorrowRecord(payload).subscribe({
       next: saved => {
         this.successMessage += ` Item successfully borrowed!`;
+        setTimeout(() => this.successMessage = '', 3000);
       },
       error: err => {
         console.error('Error creating borrow record', err);
+        this.successMessage = 'Error borrowing item. Please try again.';
+        setTimeout(() => this.successMessage = '', 3000);
       }
     });
   }

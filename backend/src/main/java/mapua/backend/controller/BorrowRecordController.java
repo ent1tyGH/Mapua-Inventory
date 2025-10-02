@@ -6,6 +6,7 @@ import mapua.backend.entity.Borrower;
 import mapua.backend.service.BorrowRecordService;
 import mapua.backend.service.ItemService;
 import mapua.backend.service.BorrowerService;
+import mapua.backend.dto.BorrowRecordRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,21 +34,20 @@ public class BorrowRecordController {
     }
 
     @PostMapping
-    public ResponseEntity<BorrowRecord> createBorrowRecord(@RequestBody BorrowRecord record) {
+    public ResponseEntity<BorrowRecord> createBorrowRecord(@RequestBody BorrowRecordRequest request) {
         // fetch the item
-        Item item = itemService.getItemById(record.getItem().getId());
-
+        Item item = itemService.getItemById(request.getItemId());
         if (item == null || item.isBorrowed()) {
             return ResponseEntity.badRequest().build();
         }
 
         // fetch or create borrower
-        Borrower borrower = borrowerService.getBorrowerBySerial(record.getBorrower().getSerialNumber());
+        Borrower borrower = borrowerService.getBorrowerBySerial(request.getSerialNumber());
         if (borrower == null) {
             borrower = new Borrower();
-            borrower.setSerialNumber(record.getBorrower().getSerialNumber());
-            borrower.setStudentName(record.getBorrower().getStudentName());
-            borrower.setStudentNumber(record.getBorrower().getStudentNumber());
+            borrower.setSerialNumber(request.getSerialNumber());
+            borrower.setStudentName(request.getStudentName());
+            borrower.setStudentNumber(request.getStudentNumber());
             borrower = borrowerService.saveBorrower(borrower);
         }
 
@@ -55,12 +55,14 @@ public class BorrowRecordController {
         item.setBorrowed(true);
         itemService.addItem(item);
 
+        // create record
+        BorrowRecord record = new BorrowRecord();
         record.setItem(item);
         record.setBorrower(borrower);
         record.setBorrowedAt(LocalDateTime.now());
 
         BorrowRecord saved = borrowRecordService.saveBorrowRecord(record);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.status(201).body(saved);
     }
 
     @PostMapping("/{id}/return")

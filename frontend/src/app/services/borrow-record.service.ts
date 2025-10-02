@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BorrowRecord } from '../models/borrow-record.model'; // import interface from model
+import { BorrowRecord } from '../models/borrow-record.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BorrowRecordService {
 
-  private apiUrl = 'http://localhost:8080/api/borrow-records'; // adjust to your backend
+  private apiUrl = 'http://localhost:8080/api/borrow-records';
 
   constructor(private http: HttpClient) {}
 
@@ -20,8 +20,8 @@ export class BorrowRecordService {
     return this.http.get<BorrowRecord>(`${this.apiUrl}/${id}`);
   }
 
-  addBorrowRecord(record: BorrowRecord): Observable<BorrowRecord> {
-    return this.http.post<BorrowRecord>(this.apiUrl, record);
+  addBorrowRecord(record: any): Observable<BorrowRecord> {
+    return this.http.post<BorrowRecord>(`${this.apiUrl}`, record);
   }
 
   updateBorrowRecord(id: number, record: BorrowRecord): Observable<BorrowRecord> {
