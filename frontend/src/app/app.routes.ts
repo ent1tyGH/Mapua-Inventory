@@ -4,6 +4,7 @@ import { ItemComponent } from './components/item/item.component';
 import { BorrowerComponent } from './components/borrower/borrower.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { NewReportComponent } from './components/new-report/new-report.component';
+import { ReturnComponent } from './components/return/return.component';
 
 
 export const routes: Routes = [
@@ -13,4 +14,5 @@ export const routes: Routes = [
   { path: 'borrowers', component: BorrowerComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'new-report', component: NewReportComponent },
+  { path: 'return', component: ReturnComponent },
 ];

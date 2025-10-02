@@ -56,11 +56,21 @@
       </span>
         </p>
 
+        <!-- Borrow / Return button -->
         <button
           class="borrow-btn"
+          *ngIf="!item.borrowed"
           [routerLink]="['/borrowers']"
           [queryParams]="{ itemId: item.id }">
           Borrow
+        </button>
+
+        <button
+          class="return-btn"
+          *ngIf="item.borrowed"
+          [routerLink]="['/return']"
+          [queryParams]="{ itemId: item.id }">
+          Return
         </button>
 
         <button class="btn btn-secondary" (click)="editItem(item)">

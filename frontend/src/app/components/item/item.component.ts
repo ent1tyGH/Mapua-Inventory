@@ -113,4 +113,26 @@ constructor(
   borrowItem(item: any) {
     console.log("Borrowing item:", item);
   }
+
+  returnItem(item: Item) {
+    // Flip the borrowed flag
+    const payload: Item = {
+      ...item,
+      borrowed: false,
+      equipmentType: { id: item.equipmentType.id, name: item.equipmentType.name }
+    };
+
+    this.itemService.update(payload).subscribe({
+      next: (updatedItem) => {
+        const index = this.items.findIndex(i => i.id === updatedItem.id);
+        if (index !== -1) {
+          this.items[index] = updatedItem;
+        }
+      },
+      error: (err) => {
+        console.error("Error returning item:", err);
+        alert("Failed to return item.");
+      }
+    });
+  }
 }
