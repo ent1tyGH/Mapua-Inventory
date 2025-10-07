@@ -15,7 +15,8 @@ interface BorrowRecordResponse {
   selector: 'app-borrow-records',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './borrow-records.component.html'
+  templateUrl: './borrow-records.component.html',
+  styleUrls: ['./borrow-records.component.css']
 })
 export class BorrowRecordsComponent implements OnInit {
   records: BorrowRecordResponse[] = [];
