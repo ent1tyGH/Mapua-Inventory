@@ -1,6 +1,6 @@
 package mapua.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Borrower {
     private String studentNumber;
 
     @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private List<BorrowRecord> borrowRecords;
 
     // --- getters and setters ---
