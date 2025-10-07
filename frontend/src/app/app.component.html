@@ -13,9 +13,19 @@
         </a>
       </li>
       <li>
+        <a [routerLink]="['/borrow-records']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Records
+        </a>
+      </li>
+      <li>
         <a [routerLink]="['/reports']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           Daily Reports
         </a>
+      </li>
+      <li>
+        <button class="sidebar-btn" (click)="downloadExcel()">
+          Backup Database in Excel File
+        </button>
       </li>
     </ul>
   </div>
