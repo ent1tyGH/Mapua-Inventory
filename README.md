@@ -6,6 +6,4 @@
 - Borrowing an item as an existing Borrower from Angular
 - Returning a borrowed item
 - Daily Reporting
-
-## Required Features to add:
-- Page to display Borrow Records/History
+- Download the database to an excel file for backup
