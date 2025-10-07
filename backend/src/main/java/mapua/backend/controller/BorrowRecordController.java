@@ -8,6 +8,7 @@ import mapua.backend.service.ItemService;
 import mapua.backend.service.BorrowerService;
 import mapua.backend.dto.BorrowRecordRequest;
 import mapua.backend.dto.ReturnRequest;
+import mapua.backend.dto.BorrowRecordResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,19 @@ public class BorrowRecordController {
     }
 
     @GetMapping
-    public List<BorrowRecord> getAllBorrowRecords() {
-        return borrowRecordService.getAllBorrowRecords();
+    public List<BorrowRecordResponse> getAllBorrowRecords() {
+        return borrowRecordService.getAllBorrowRecords().stream()
+                .map(record -> new BorrowRecordResponse(
+                        record.getId(),
+                        record.getItem() != null && record.getItem().getEquipmentType() != null
+                                ? record.getItem().getEquipmentType().getName()  // ✅ fixed
+                                : null,
+                        record.getBorrower() != null ? record.getBorrower().getStudentName() : null,
+                        record.getBorrowedAt(),
+                        record.getReturnedAt(),
+                        record.getRemarks()
+                ))
+                .collect(java.util.stream.Collectors.toList());
     }
 
     @PostMapping

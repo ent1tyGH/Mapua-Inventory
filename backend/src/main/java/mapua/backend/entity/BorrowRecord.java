@@ -1,6 +1,5 @@
 package mapua.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -28,7 +27,6 @@ public class BorrowRecord {
     // Relationship with Borrower
     @ManyToOne
     @JoinColumn(name = "borrower_id")
-    @JsonBackReference
     private Borrower borrower;
 
 
