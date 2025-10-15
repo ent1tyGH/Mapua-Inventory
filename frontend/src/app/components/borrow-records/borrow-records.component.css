@@ -1,0 +1,132 @@
+:root {
+  --bg-color: #0a0a0a; /* dark background */
+  --card-bg: #161616; /* slightly lighter for contrast */
+  --accent-red: #c8102e; /* Mapúa red */
+  --accent-gold: #f5c518; /* Mapúa gold */
+  --text-light: #f8fafc;
+  --text-muted: #b0b0b0;
+  --border-color: #2b2b2b;
+  --radius: 14px;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-light);
+  font-family: "Poppins", "Inter", "Segoe UI", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 3rem;
+}
+
+/* ===== Header ===== */
+h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent-red);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+  margin: 0.8rem auto 0;
+  border-radius: 3px;
+}
+
+/* ===== Table Container ===== */
+table {
+  width: 95%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(200, 16, 46, 0.25);
+  margin: 0 auto;
+  border: 1px solid var(--border-color);
+  font-size: 1.1rem; /* larger text */
+}
+
+/* ===== Table Header ===== */
+thead {
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-gold));
+  color: #1a1a1a;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+}
+
+th {
+  padding: 1.2rem;
+  font-size: 1rem;
+  text-align: left;
+}
+
+/* ===== Table Body ===== */
+tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+td {
+  padding: 1.2rem 1.4rem;
+  font-size: 1.05rem;
+  color: var(--text-light);
+  vertical-align: middle;
+}
+
+/* ===== Hover Effects ===== */
+tbody tr:hover {
+  background: rgba(245, 197, 24, 0.08);
+  transform: scale(1.008);
+  cursor: pointer;
+}
+
+/* ===== Special Styling ===== */
+td:contains("Not returned") {
+  color: var(--accent-gold);
+  font-style: italic;
+  font-weight: 500;
+}
+
+td:last-child {
+  color: var(--text-muted);
+}
+
+/* 🔴 Highlight Not Returned Cells */
+.not-returned {
+  color: #c8102e !important; /* Mapúa Red */
+  font-weight: 700;
+  font-style: italic;
+  text-shadow: 0 0 8px rgba(200, 16, 46, 0.3);
+}
+
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.95rem;
+  }
+  th, td {
+    padding: 0.8rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===== Glow Effect ===== */
+table:hover {
+  box-shadow: 0 0 40px rgba(245, 197, 24, 0.15),
+              0 0 25px rgba(200, 16, 46, 0.25);
+  transition: box-shadow 0.3s ease;
+}

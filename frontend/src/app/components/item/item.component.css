@@ -1,8 +1,16 @@
-/* item.component.css */
 .container {
   display: flex;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
   margin-top: 30px;
+  padding: 20px;
+}
+
+/* Left Section (Form) */
+.form-section {
+  flex: 1;
+  max-width: 400px;
 }
 
 .form-card {
@@ -10,90 +18,67 @@
   border-radius: 15px;
   padding: 25px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  width: 100%;
-  max-width: 500px;
 }
 
-.form-group {
-  margin-bottom: 18px;
-}
-
-label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  display: block;
-  color: #C8102E;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  transition: 0.3s;
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: #C8102E;
-  box-shadow: 0 0 8px rgba(200,16,46,0.3);
-  outline: none;
+/* Button Group inside Form */
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 button {
   border: none;
-  padding: 12px 18px;
+  padding: 10px 18px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
-  margin-right: 8px;
+  transition: 0.3s ease;
 }
 
-.submit-btn {
-  background: #C8102E;
-  color: white;
-}
-
-.submit-btn:hover {
-  background: #a50d24;
-}
-
-.reset-btn {
-  background: #FFCC00;
-  color: #333;
-}
-
-.reset-btn:hover {
-  background: #e6b800;
-}
-.checkbox-group {
+/* Right Section (Dashboard + Item List) */
+.right-section {
+  flex: 2;
   display: flex;
-  align-items: center;
-  gap: 8px; /* space between checkbox and text */
-  margin: 12px 0;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.checkbox-group input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.checkbox-group label {
-  font-weight: 600;
-  color: #C8102E;
-  cursor: pointer;
-  margin: 0; /* removes extra spacing */
+.dashboard {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  padding: 20px;
 }
 
 .item-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 16px;
-  margin-top: 20px;
+  max-height: 75vh;
+  overflow-y: auto;
+  padding-right: 6px;
+
+  /* ✅ Hide scrollbar visually but keep scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
 }
 
+.item-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.item-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.item-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Each item card layout */
 .item-card {
   background: white;
   border: 1px solid #ddd;
@@ -101,48 +86,51 @@ button {
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 260px; /* ensures uniform card height */
 }
 
-.item-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+/* Reduce spacing between item details (Specs, Location, etc.) */
+.item-card p {
+  margin: 5px 0; /* tighter vertical spacing */
+  line-height: 1.5; /* more compact lines */
+  font-size: 0.92rem;
 }
 
-.item-card h3 {
-  margin-top: 0;
-  color: #C8102E; /* Mapúa red */
+.item-card p strong {
+  font-weight: 700;
 }
 
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
-  font-size: 0.8rem;
-  border-radius: 12px;
+/* Buttons stay side-by-side at the bottom */
+.item-card .button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+/* Ensure consistent sizing and alignment for all card buttons */
+.item-card .button-group button {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 6px;
   font-weight: 600;
-  color: white;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-.badge-working {
-  background-color: #28a745; /* green */
+/* Slight lift effect */
+.item-card .button-group button:hover {
+  transform: translateY(-2px);
 }
 
-.badge-repair {
-  background-color: #ffc107; /* yellow */
-  color: #212529;
-}
-
-.badge-disposed {
-  background-color: #dc3545; /* red */
-}
-
-.badge-yes {
-  background-color: #C8102E; /* Mapúa red */
-}
-
-.badge-no {
-  background-color: #6c757d; /* gray */
-}
-
+/* Header */
 .item-header {
   display: flex;
   justify-content: space-between;
@@ -158,36 +146,364 @@ button {
   border-radius: 6px;
 }
 
-button.borrow-btn {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: 10px;
+/* Badges */
+.badge {
   display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
 }
 
-button.return-btn {
-  background: #28a745;
+.badge-working { background-color: #28a745; }
+.badge-repair { background-color: #ffc107; color: #212529; }
+.badge-disposed { background-color: #dc3545; }
+.badge-yes { background-color: #C8102E; }
+.badge-no { background-color: #6c757d; }
+
+/* Borrow Button */
+button.borrow-btn {
+  background: #28a745; /* Green for Borrow */
   color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-top: 10px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button.borrow-btn:hover {
   background: #218838;
+  transform: translateY(-2px);
 }
 
+/* Return Button */
+button.return-btn {
+  background: #942929;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.return-btn:hover {
+  background: #0069d9;
+  transform: translateY(-2px);
+}
+
+/* Disabled Borrow Button */
 button.borrow-btn:disabled {
   background: #cccccc;
   cursor: not-allowed;
 }
+
+/* Edit Button */
+.edit-btn {
+  background-color: #BFC74E; /* Base: muted yellow-green */
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-btn:hover {
+  background-color: #A4AD44; /* Darker shade of the same tone */
+  transform: translateY(-2px);
+}
+
+.edit-btn i {
+  font-size: 0.9rem;
+}
+
+/* Update Button */
+.update-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.update-btn:hover {
+  background: #0069d9;
+}
+
+/* Reset/Cancel Button */
+.reset-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.reset-btn:hover {
+  background: #e0e0e0;
+}
+/* 🔹 Layout Container */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+  margin-top: 30px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+/* 🔹 Left Column */
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 🔹 Right Column */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 🔹 Form Card */
+.form-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* 🔎 Modern Search Bar Design */
+.search-filter {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 18px 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e5e5;
+}
+
+.search-filter:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* 🔍 Search input field */
+.search-filter input[type="text"] {
+  padding: 12px 14px 12px 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #f9f9f9 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23666" viewBox="0 0 24 24"><path d="M10 2a8 8 0 015.292 13.708l5 5a1 1 0 01-1.414 1.414l-5-5A8 8 0 1110 2zm0 2a6 6 0 100 12A6 6 0 0010 4z"/></svg>') no-repeat 12px center;
+  background-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.search-filter input[type="text"]:focus {
+  outline: none;
+  border-color: #c8102e; /* Mapúa red accent */
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+}
+
+/* ✅ Checkboxes row */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+/* 🔹 Checkbox container */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+/* ✅ Clean + Centered Checkbox Design */
+.checkbox-group input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  vertical-align: middle;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
+  border-color: #c8102e;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+}
+
+/* ✅ Centered Checkmark */
+.checkbox-group input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 11px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -60%) scale(0) rotate(45deg);
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+/* ✅ Checked state */
+.checkbox-group input[type="checkbox"]:checked {
+  background-color: #c8102e;
+  border-color: #c8102e;
+  box-shadow: 0 2px 6px rgba(200, 16, 46, 0.3);
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+  opacity: 1;
+  transform: translate(-50%, -60%) scale(1) rotate(45deg);
+}
+
+
+/* ✅ Label hover + active states */
+.checkbox-group label:hover {
+  background-color: rgba(200, 16, 46, 0.05);
+  color: #c8102e;
+}
+
+/* Default fallback */
+.condition-filters input[type="checkbox"]:checked {
+  background-color: #c8102e;
+  border-color: #c8102e;
+}
+
+/* ✅ Working (Green) */
+.condition-filters label.working input[type="checkbox"]:checked {
+  background-color: #1ea75b !important;
+  border-color: #1ea75b !important;
+  box-shadow: 0 2px 6px rgba(30, 167, 91, 0.3);
+}
+
+/* ✅ Needs Repair (Orange) */
+.condition-filters label.needs-repair input[type="checkbox"]:checked {
+  background-color: #f39c12 !important;
+  border-color: #f39c12 !important;
+  box-shadow: 0 2px 6px rgba(243, 156, 18, 0.3);
+}
+
+/* ✅ Disposed (Gray) */
+.condition-filters label.disposed input[type="checkbox"]:checked {
+  background-color: #7f8c8d !important;
+  border-color: #7f8c8d !important;
+  box-shadow: 0 2px 6px rgba(127, 140, 141, 0.3);
+}
+
+.checkbox-group label:nth-child(1) input[type="checkbox"]:checked {
+  background-color: #1ea75b; /* Available = green */
+  border-color: #1ea75b;
+  box-shadow: 0 2px 6px rgba(30, 167, 91, 0.3);
+}
+
+.checkbox-group label:nth-child(2) input[type="checkbox"]:checked {
+  background-color: #c8102e; /* Borrowed = red */
+  border-color: #c8102e;
+  box-shadow: 0 2px 6px rgba(200, 16, 46, 0.3);
+}
+
+/* 🔹 Optional subtle animation for group appearance */
+.checkbox-group {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* 🎛️ Dashboard Controls (Dropdown Styling) */
+.dashboard-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  color: #333;
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  width: fit-content;
+  transition: all 0.3s ease;
+}
+
+.dashboard-controls:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.dashboard-controls label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #c8102e; /* Mapúa red label */
+}
+
+.dashboard-controls select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 40px 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23c8102e' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+}
+
+.dashboard-controls select:hover {
+  border-color: #c8102e;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+}
+
+.dashboard-controls select:focus {
+  outline: none;
+  border-color: #c8102e;
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.2);
+}
+
+.dashboard-controls option {
+  padding: 8px;
+}
+
+
+/* 🔹 Item List */
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  max-height: 75vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
 

@@ -17,7 +17,10 @@
     <td>{{ record.itemName }}</td>
     <td>{{ record.borrowerName }}</td>
     <td>{{ record.borrowedAt | date:'short' }}</td>
-    <td>{{ record.returnedAt ? (record.returnedAt | date:'short') : 'Not returned' }}</td>
+    <td [class.not-returned]="!record.returnedAt">
+      {{ record.returnedAt ? (record.returnedAt | date:'short') : 'Not returned' }}
+    </td>
+
     <td>{{ record.remarks || '—' }}</td>
   </tr>
   </tbody>
