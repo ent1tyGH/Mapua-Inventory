@@ -1,35 +1,121 @@
 <div class="container">
-  <div class="form-card">
-    <h2>Items</h2>
+  <!-- ✅ LEFT COLUMN -->
+  <div class="left-section">
+    <!-- Item Form -->
+    <div class="form-card">
+      <h2>{{ isEditing ? 'Update Item' : 'Add Item' }}</h2>
 
-    <form (ngSubmit)="addItem()">
-      <label>Equipment Type:</label>
-      <select [(ngModel)]="newItem.equipmentType.id" name="equipmentTypeId" required>
-        <option *ngFor="let type of equipmentTypes" [value]="type.id">{{ type.name }}</option>
-      </select>
+      <form (ngSubmit)="isEditing ? updateItem() : addItem()">
+        <label>Equipment Type: </label>
+        <select [(ngModel)]="newItem.equipmentType.id" name="equipmentTypeId" required>
+          <option [ngValue]="0" disabled>Select Type</option>
+          <option *ngFor="let type of equipmentTypes" [ngValue]="type.id">{{ type.name }}</option>
+        </select>
 
-      <label>Specifications:</label>
-      <input type="text" [(ngModel)]="newItem.specifications" name="specifications" required />
+        <label>Specifications: </label>
+        <input type="text" [(ngModel)]="newItem.specifications" name="specifications" required />
 
-      <label>Location:</label>
-      <input type="text" [(ngModel)]="newItem.location" name="location" required />
+        <label>Location: </label>
+        <input type="text" [(ngModel)]="newItem.location" name="location" required />
 
-      <label>Condition:</label>
-      <select [(ngModel)]="newItem.conditionStatus" name="conditionStatus" required>
-        <option>WORKING</option>
-        <option>NEEDS_REPAIR</option>
-        <option>DISPOSED</option>
-      </select>
+        <label>Condition: </label>
+        <select [(ngModel)]="newItem.conditionStatus" name="conditionStatus" required>
+          <option>WORKING</option>
+          <option>NEEDS_REPAIR</option>
+          <option>DISPOSED</option>
+        </select>
 
-      <button type="submit">Add Item</button>
-      <button type="button" class="btn btn-primary" [routerLink]="'/equipment-type/add'">
-        Add Equipment Type
-      </button>
+        <div class="button-group">
+    <button *ngIf="!isEditing" type="submit" class="submit-btn">Add Item</button>
+    <button *ngIf="isEditing" type="submit" class="update-btn">Save Changes</button>
+    <button *ngIf="isEditing" type="button" class="reset-btn" (click)="cancelEdit()">Cancel</button>
+    <button
+      *ngIf="!isEditing"
+      type="button"
+      class="btn btn-primary"
+      [routerLink]="'/equipment-types'">
+      Add Equipment Type
+    </button>
+  </div>
     </form>
+  </div>
 
+    <!-- 🔍 Search Bar (below form) -->
+    <div class="search-filter">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (input)="applyFilter()"
+        placeholder="🔍 Search items..."
+      />
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="showAvailable" (change)="applyFilter()" />
+          Show Available
+        </label>
+        <label>
+          <input type="checkbox" [(ngModel)]="showBorrowed" (change)="applyFilter()" />
+          Show Borrowed
+        </label>
+      </div>
+      <!-- ✅ New Condition Filter Row -->
+      <div class="checkbox-group condition-filters">
+        <label class="working">
+          <input type="checkbox" [(ngModel)]="filterWorking" (change)="applyFilter()" />
+          Working
+        </label>
+        <label class="needs-repair">
+          <input type="checkbox" [(ngModel)]="filterNeedsRepair" (change)="applyFilter()" />
+          Needs Repair
+        </label>
+        <label class="disposed">
+          <input type="checkbox" [(ngModel)]="filterDisposed" (change)="applyFilter()" />
+          Disposed
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ RIGHT COLUMN -->
+  <div class="right-section">
+    <div class="dashboard">
+
+      <!-- Equipment Type Selector -->
+      <div class="dashboard-controls">
+        <label for="equipmentTypeFilter">Equipment Type:</label>
+        <select id="equipmentTypeFilter" [(ngModel)]="selectedTypeId" (change)="updateDashboard()">
+          <option [ngValue]="0">All Items</option>
+          <option *ngFor="let type of equipmentTypes" [ngValue]="type.id">{{ type.name }}</option>
+        </select>
+      </div>
+
+      <!-- Dashboard Stats -->
+      <div class="dashboard-stats">
+        <div class="stat-card total">
+          <h3>Total Items</h3>
+          <p>{{ dashboardData.total }}</p>
+        </div>
+        <div class="stat-card available">
+          <h3>Available</h3>
+          <p>{{ dashboardData.available }}</p>
+        </div>
+        <div class="stat-card borrowed">
+          <h3>Borrowed</h3>
+          <p>{{ dashboardData.borrowed }}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Item List -->
     <div class="item-list">
-      <div class="item-card" *ngFor="let item of items">
-        <h3>{{ item.equipmentType?.name }} (ID: {{ item.id }})</h3>
+      <div class="item-card" *ngFor="let item of filteredItems">
+        <div class="item-header">
+          <h3>{{ item.equipmentType?.name }}</h3>
+          <span class="item-id">ID: {{ item.id }}</span>
+        </div>
+
         <p><strong>Specs:</strong> {{ item.specifications }}</p>
         <p><strong>Location:</strong> {{ item.location }}</p>
 
@@ -41,8 +127,8 @@
               'badge-repair': item.conditionStatus === 'NEEDS_REPAIR',
               'badge-disposed': item.conditionStatus === 'DISPOSED'
             }">
-        {{ item.conditionStatus }}
-      </span>
+            {{ item.conditionStatus }}
+          </span>
         </p>
 
         <p>
@@ -52,57 +138,30 @@
               'badge-yes': item.borrowed,
               'badge-no': !item.borrowed
             }">
-        {{ item.borrowed ? 'Yes' : 'No' }}
-      </span>
+            {{ item.borrowed ? 'Yes' : 'No' }}
+          </span>
         </p>
 
-        <!-- Borrow / Return button -->
-        <button
-          class="borrow-btn"
-          *ngIf="!item.borrowed"
-          [routerLink]="['/borrowers']"
-          [queryParams]="{ itemId: item.id }">
-          Borrow
-        </button>
+        <div class="button-group">
+          <button
+            class="borrow-btn"
+            *ngIf="!item.borrowed"
+            [routerLink]="['/borrowers']"
+            [queryParams]="{ itemId: item.id }">
+            Borrow
+          </button>
 
-        <button
-          class="return-btn"
-          *ngIf="item.borrowed"
-          [routerLink]="['/return']"
-          [queryParams]="{ itemId: item.id }">
-          Return
-        </button>
+          <button
+            class="return-btn"
+            *ngIf="item.borrowed"
+            [routerLink]="['/return']"
+            [queryParams]="{ itemId: item.id }">
+            Return
+          </button>
 
-        <button class="btn btn-secondary" (click)="editItem(item)">
-          <i class="fas fa-edit"></i> Edit
-        </button>
-
-        <div *ngIf="isEditing && selectedItem?.id === item.id" class="edit-form">
-          <hr>
-          <h3>Update Item</h3>
-          <form (ngSubmit)="updateItem()">
-
-            <label>Equipment Type:</label>
-            <select [(ngModel)]="selectedItem!.equipmentType.id" name="updateEquipmentTypeId" required>
-              <option *ngFor="let type of equipmentTypes" [value]="type.id">{{ type.name }}</option>
-            </select>
-
-            <label>Specifications:</label>
-            <input type="text" [(ngModel)]="selectedItem!.specifications" name="updateSpecifications" required />
-
-            <label>Location:</label>
-            <input type="text" [(ngModel)]="selectedItem!.location" name="updateLocation" required />
-
-            <label>Condition:</label>
-            <select [(ngModel)]="selectedItem!.conditionStatus" name="updateConditionStatus" required>
-              <option>WORKING</option>
-              <option>NEEDS_REPAIR</option>
-              <option>DISPOSED</option>
-            </select>
-
-            <button type="submit" class="btn btn-success">Save Changes</button>
-            <button type="button" class="btn btn-light" (click)="cancelEdit()">Cancel</button>
-          </form>
+          <button class="edit-btn" (click)="editItem(item)">
+            <i class="fas fa-edit"></i> Edit
+          </button>
         </div>
       </div>
     </div>
