@@ -6,7 +6,6 @@ import mapua.backend.entity.Borrower;
 import mapua.backend.service.BorrowRecordService;
 import mapua.backend.service.ItemService;
 import mapua.backend.service.BorrowerService;
-import mapua.backend.service.ExcelExportService;
 import mapua.backend.dto.BorrowRecordRequest;
 import mapua.backend.dto.ReturnRequest;
 import mapua.backend.dto.BorrowRecordResponse;
@@ -27,13 +26,11 @@ public class BorrowRecordController {
     private final BorrowRecordService borrowRecordService;
     private final ItemService itemService;
     private final BorrowerService borrowerService;
-    private final ExcelExportService excelExportService;
 
-    public BorrowRecordController(BorrowRecordService borrowRecordService, ItemService itemService, BorrowerService borrowerService, ExcelExportService excelExportService) {
+    public BorrowRecordController(BorrowRecordService borrowRecordService, ItemService itemService, BorrowerService borrowerService) {
         this.borrowRecordService = borrowRecordService;
         this.itemService = itemService;
         this.borrowerService = borrowerService;
-        this.excelExportService = excelExportService;
     }
 
     @GetMapping
@@ -101,15 +98,5 @@ public class BorrowRecordController {
     public ResponseEntity<?> deleteBorrowRecord(@PathVariable Long id) {
         borrowRecordService.deleteBorrowRecord(id);
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/export")
-    public ResponseEntity<byte[]> exportDatabase() throws IOException {
-        byte[] excelBytes = excelExportService.exportDatabaseToExcel();
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=inventory_backup.xlsx")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(excelBytes);
     }
 }
