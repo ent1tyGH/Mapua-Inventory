@@ -3,7 +3,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 30px;
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 20px;
 }
 
@@ -43,13 +43,6 @@ button {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.dashboard {
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  padding: 20px;
 }
 
 .item-list {
@@ -435,7 +428,7 @@ button.borrow-btn:disabled {
 }
 
 
-/* 🎛️ Dashboard Controls (Dropdown Styling) */
+* 🎛️ Dashboard Controls (Dropdown Styling) */
 .dashboard-controls {
   display: flex;
   align-items: center;
@@ -445,14 +438,9 @@ button.borrow-btn:disabled {
   background: #fff;
   padding: 10px 15px;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   width: fit-content;
   transition: all 0.3s ease;
-}
-
-.dashboard-controls:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-  transform: translateY(-1px);
 }
 
 .dashboard-controls label {
@@ -463,8 +451,6 @@ button.borrow-btn:disabled {
 
 .dashboard-controls select {
   appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   background-color: #fff;
   border: 1.5px solid #ccc;
   border-radius: 8px;
@@ -480,20 +466,58 @@ button.borrow-btn:disabled {
   background-size: 14px;
 }
 
-.dashboard-controls select:hover {
-  border-color: #c8102e;
-  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+/* 📊 Dashboard Box */
+.dashboard {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  padding: 20px;
 }
 
-.dashboard-controls select:focus {
-  outline: none;
-  border-color: #c8102e;
-  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.2);
+/* 📊 Dashboard Stats — Smaller, More Compact Boxes */
+.dashboard-stats {
+  display: flex;
+  gap: 14px;           /* less spacing between boxes */
+  margin-top: 14px;
+  justify-content: space-between;
 }
 
-.dashboard-controls option {
-  padding: 8px;
+.stat-card {
+  flex: 1;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 10px 12px;  /* less padding = smaller box */
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 90px;        /* ✅ makes them shorter */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.stat-card h3 {
+  font-size: 0.85rem;  /* smaller title text */
+  color: #c8102e;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.stat-card p {
+  font-size: 1.2rem;   /* slightly smaller number */
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+/* Subtle hover animation */
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card.total h3 { color: #c8102e; }
+.stat-card.available h3 { color: #1ea75b; }
+.stat-card.borrowed h3 { color: #942929; }
 
 
 /* 🔹 Item List */
