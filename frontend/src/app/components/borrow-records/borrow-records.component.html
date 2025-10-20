@@ -5,6 +5,7 @@
   <tr>
     <th>ID</th>
     <th>Item Name</th>
+    <th>Item ID</th>
     <th>Borrower Name</th>
     <th>Borrowed At</th>
     <th>Returned At</th>
@@ -15,6 +16,7 @@
   <tr *ngFor="let record of records">
     <td>{{ record.id }}</td>
     <td>{{ record.itemName }}</td>
+    <td>{{ record.itemId }}</td>
     <td>{{ record.borrowerName }}</td>
     <td>{{ record.borrowedAt | date:'short' }}</td>
     <td [class.not-returned]="!record.returnedAt">

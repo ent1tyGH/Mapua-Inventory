@@ -41,6 +41,7 @@ public class BorrowRecordController {
                         record.getItem() != null && record.getItem().getEquipmentType() != null
                                 ? record.getItem().getEquipmentType().getName()  // ✅ fixed
                                 : null,
+                        record.getItem() != null ? record.getItem().getId() : null,
                         record.getBorrower() != null ? record.getBorrower().getStudentName() : null,
                         record.getBorrowedAt(),
                         record.getReturnedAt(),

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 interface BorrowRecordResponse {
   id: number;
   itemName: string;
+  itemId: number;
   borrowerName: string;
   borrowedAt: string;
   returnedAt: string | null;
