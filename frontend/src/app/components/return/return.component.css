@@ -93,3 +93,18 @@ form textarea {
   90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-10px); }
 }
+
+.return-form {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.return-form input,
+.return-form select {
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 200px;
+}

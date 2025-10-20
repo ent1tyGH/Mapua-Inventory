@@ -31,7 +31,21 @@
         <li *ngFor="let record of borrowedItems">
           <strong>{{ record.item.equipmentType.name }}</strong>
           <span> (Borrowed at: {{ record.borrowedAt | date:'short' }}) </span>
-          <button (click)="returnItem(record.item.id)">Return</button>
+
+          <div class="return-form">
+            <label>Remarks:</label>
+            <input type="text" [(ngModel)]="record.remarks" placeholder="Enter remarks" />
+
+            <label>Condition Status:</label>
+            <select [(ngModel)]="record.conditionStatus">
+              <option value="" disabled selected>Select condition</option>
+              <option value="WORKING">Working</option>
+              <option value="NEEDS_REPAIR">Needs Repair</option>
+              <option value="DISPOSED">Disposed</option>
+            </select>
+
+            <button (click)="returnItem(record.item.id, record)">Return</button>
+          </div>
         </li>
       </ul>
 

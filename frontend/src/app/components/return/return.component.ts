@@ -29,21 +29,27 @@ export class ReturnComponent {
     });
   }
 
-  returnItem(itemId: number) {
-    const remarks = prompt('Enter remarks for this return:');
-    if (remarks === null || remarks.trim() === '') {
-      alert('Return cancelled. Remarks are required.');
+  // ✅ This is the returnItem() function used in your HTML
+  returnItem(itemId: number, record: any) {
+    if (!record.remarks || record.remarks.trim() === '') {
+      alert('Remarks are required.');
+      return;
+    }
+
+    if (!record.conditionStatus) {
+      alert('Please select a condition status.');
       return;
     }
 
     const payload = {
-      serialNumber: this.serialNumber, // ✅ include borrower serial
-      remarks: remarks
+      serialNumber: this.serialNumber,
+      remarks: record.remarks,
+      conditionStatus: record.conditionStatus
     };
 
     this.borrowRecordService.returnItem(itemId, payload).subscribe({
       next: () => {
-        alert('Item successfully returned!');
+        alert('Item successfully returned and condition updated!');
         this.borrowedItems = this.borrowedItems?.filter(i => i.item.id !== itemId) || null;
         if (!this.borrowedItems?.length) this.resetForm();
       },
