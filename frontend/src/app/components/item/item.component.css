@@ -428,7 +428,7 @@ button.borrow-btn:disabled {
 }
 
 
-* 🎛️ Dashboard Controls (Dropdown Styling) */
+/* 🎛️ Dashboard Controls (Dropdown Styling) */
 .dashboard-controls {
   display: flex;
   align-items: center;
