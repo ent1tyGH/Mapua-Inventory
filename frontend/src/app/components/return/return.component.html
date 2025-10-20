@@ -30,6 +30,7 @@
       <ul>
         <li *ngFor="let record of borrowedItems">
           <strong>{{ record.item.equipmentType.name }}</strong>
+          <span> (ID: {{ record.item.id }}) </span>
           <span> (Borrowed at: {{ record.borrowedAt | date:'short' }}) </span>
 
           <div class="return-form">
