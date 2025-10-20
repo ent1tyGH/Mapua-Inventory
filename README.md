@@ -1,179 +1,147 @@
-# Mapua University DOIT Inventory System
+# Mapua University DOIT Inventory System with Borrower Feature
 
-A full-stack **Inventory Management System** built with **Angular**, **Spring Boot**, and **MySQL**.  
-This application helps manage items, quantities, and records efficiently within a local environment.
+## Overview
+The Mapua University DOIT Inventory System with Borrower Feature is a full-stack application built with **Spring Boot** and **Angular**.  
+This version is packaged for Windows with a one-click launcher (.bat), allowing offline use.
 
----
+Once installed, simply **double-click the batch file** — it will automatically start:
+- MySQL (if not already running)
+- The backend server (Spring Boot)
+- The web frontend (Angular build inside Spring Boot)
 
-## Features
-
-- Add, edit, and view inventory items
-- Search and filter functionality
-- Borrow/Loan items (record borrowing and returning)
-- Responsive Angular frontend served by Spring Boot
-- MySQL database integration
-- Local deployment (no internet required)
+You can then open the app in your browser and use it instantly.
+- Open your web browser and go to 'http://localhost:8080' to use the app.
 
 ---
 
 ## Prerequisites
 
-Before running the program, make sure the following are installed on your computer:
+Before installing, make sure these are installed on the target computer:
 
-1. **Java Development Kit (JDK 17 or newer)**
-   - [Download Oracle JDK 17 (official site)](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-   - (Optional) You may also use **Eclipse Temurin (Adoptium)**, an open-source equivalent: https://adoptium.net/temurin/releases/
-   - Verify installation:
-     ```bash
-     java -version
-     ```
+### 1️⃣ [Java SE Development Kit 17 (JDK 17)](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- Download the **Windows x64 Installer** from Oracle (e.g., `jdk-17.0.12_windows-x64_bin.exe`).
+- During installation, check “Add JAVA_HOME to PATH.”
 
-2. **MySQL Server 8.0 (Community Edition)**
-   - [Download MySQL 8.0 Community Edition](https://dev.mysql.com/downloads/mysql/)
-   - Select version **8.0.x** for best compatibility with Spring Boot.
-   - Start the MySQL service after installation.
-   - Optionally install **MySQL Workbench 8.0** for easier management.
-
-3. *(Optional for development)* **Node.js and Angular CLI**
-   - Only required if you plan to modify and rebuild the Angular frontend.
-   - [Download Node.js](https://nodejs.org/)
-   - Install Angular CLI:
-     ```bash
-     npm install -g @angular/cli
-     ```
-
----
-
-## Database Setup
-
-1. Open MySQL and create a new database:
-   ```sql
-   CREATE DATABASE mapua_inventory;
-   ```
-
-2. (Optional) Update the database connection in  
-   `src/main/resources/application.properties`:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/mapua_inventory
-   spring.datasource.username=root
-   spring.datasource.password=yourpassword
-   spring.jpa.hibernate.ddl-auto=update
-   server.port=8080
-   ```
-
----
-
-## Building the Project
-
-### Step 1: Build the Angular Frontend
-If you’re developing or have made changes to the frontend:
+To verify installation:
 ```bash
-cd frontend
-ng build --configuration production
+java -version
 ```
 
-After the build, copy the contents of:
-```
-dist/<your-angular-app>/
-```
-into:
-```
-springboot/src/main/resources/static/
-```
-
-> You only need to do this when frontend changes are made.
+### 2️⃣ [MySQL 8.0 Community Edition](https://dev.mysql.com/downloads/installer/)
+- Download **MySQL Installer for Windows**.
+- Install the following components:
+    - MySQL Server 8.0
+    - MySQL Workbench (optional for viewing data)
+- Remember your MySQL root password (you’ll need it once).
 
 ---
 
-### Step 2: Package the Spring Boot Backend
-From the backend project folder (where `pom.xml` is located):
-```bash
-mvn clean package
-```
+## Installation Steps
 
-This will generate a JAR file in:
-```
-target/mapua-inventory-1.0.jar
-```
+### Step 1 — Download the App
+Download the launcher package:
+
+👉 [Download MapuaInventory.zip](https://example.com/MapuaInventorySetup.exe)
+
+The zip contains:
+
+- run_inventory.bat → one-click launcher
+- mapua-inventory-1.0.jar → backend + Angular frontend
+- MapuaUniversityLogo.ico → icon
 
 ---
 
-## Running the Application
+### Step 2 — Extract the Folder
+1. Extract the zip to any folder (e.g., C:\Program Files\MapuaInventory)
+2. Ensure both .bat and .jar are in the same folder
 
-1. Ensure MySQL is running.
-2. Run the JAR file:
+---
+
+### ▶️ Step 3 — Run the App
+After installation:
+1. Double-click run_inventory.bat
+2. The batch file will:
+    1. Check if MySQL is running; start it if needed
+    2. Launch the backend + frontend JAR
+3. Open your browser at:
+   👉 http://localhost:8080
+
+---
+
+## How the One-Click Batch Works
+
+Behind the scenes:
+   ```bat
+   @echo off
+REM --------------------------------------
+REM One-click launcher for Mapua Inventory
+REM --------------------------------------
+
+REM Step 1: Check if MySQL service is running
+sc query MySQL80 | findstr /I "RUNNING" >nul
+if %errorlevel% equ 0 (
+    echo MySQL is already running.
+) else (
+    echo Starting MySQL...
+    net start MySQL80
+    if %errorlevel% neq 0 (
+        echo Failed to start MySQL. Please make sure it is installed as a service.
+        pause
+        exit /b
+    )
+    REM Wait a few seconds for MySQL to fully start
+    timeout /t 5 >nul
+)
+
+REM Step 2: Launch Spring Boot backend + Angular frontend
+echo Launching Mapua Inventory System...
+start "" java -jar "%~dp0mapua-inventory-1.0.jar"
+
+REM Optional: keep console window open for logs
+pause
+
+   ```
+%~dp0 ensures the batch finds the JAR in the same folder.
+
+Adjust MySQL80 if your MySQL service name is different.
+
+---
+
+## Usage Instructions (PLACEHOLDER)
+After the system opens in your browser:
+- **Login or Register** to start using the system
+- Navigate between:
+    -  **Inventory List**
+    -  **Borrow Records**
+    -  **Borrow Item**
+- All data is stored in MySQL locally (`inventory_db` by default)
+
+---
+
+## Uninstallation
+To uninstall:
+1. Stop the app and MySQL (`net stop MySQL80` if running)
+2. Delete the installation folder (e.g., `C:\Program Files\MapuaInventory`)
+
+---
+
+## Notes
+- You can reconfigure the MySQL connection by editing:
+  ```
+  application.properties
+  ```
+- If you included an embedded JRE, users won’t even need to install JDK.
+
+---
+
+## Developer Build Reference (for maintainers)
+If you ever need to rebuild or update the app:
+1. Build your Spring Boot JAR:
    ```bash
-   java -jar target/mapua-inventory-1.0.jar
+   mvn clean package
    ```
-3. Open your web browser and visit:
-   ```
-   http://localhost:8080
-   ```
-
-The Angular frontend and Spring Boot backend will both run on this single local instance.
-
----
-
-## Using the Program
-
-Once the program is running:
-
-1. **Open the App:**  
-   Go to http://localhost:8080
-
-2. **Create an Equipment Type**
-   - Name the equipment type
-
-3. **Add Items:**
-   - Navigate to the **Add Item** page.
-   - Fill in equipment type, specifications, location, and condition
-   - Click **Add Item** to store it in the database.
-
-4. **Borrow / Loan Items:**
-   - Use the **Borrow Item** feature to record when an item is borrowed.
-   - Click **Borrow** button on item to be loaned.
-   - Scan the borrower's ID to mark the item as loaned and to store the record in the database.
-   - When the item is returned, click **Return** button on item.
-   - Scan the borrower's ID to mark the item as returned.
-
-5. **View Inventory:**
-   - The main dashboard shows all stored items.
-   - Use the **Search** bar or filters to locate specific entries.
-
-6. **Edit Items:**
-   - Click the **Edit** button beside an item to modify details.
-
-7. **Check Records**
-   - Navigate to Records to see the history of borrowed items and borrowers.
-
-8. **Backup or Export Data:**
-   - Use the **Export** button to download a CSV or backup file.
-
----
-
-## Troubleshooting
-
-| Problem | Possible Cause | Solution |
-|----------|----------------|-----------|
-| App doesn’t load | MySQL not running | Start MySQL service before running the JAR |
-| “Access denied for user” | Wrong DB credentials | Update username/password in `application.properties` |
-| 404 or blank page | Angular build missing | Rebuild Angular and copy `dist/` files into `resources/static/` |
-
----
-
-## Developer Notes
-
-- **Frontend:** Angular
-- **Backend:** Spring Boot
-- **Database:** MySQL 8.0
-- **Build Tool:** Maven
-
----
-
-## You’re All Set!
-
-Your Mapua University DOIT Inventory System is now ready to use locally.  
-Open http://localhost:8080, start adding items, and manage your inventory with ease.
+2. Place the resulting mapua-inventory-1.0.jar in your launcher folder
+3. Update the batch file if needed, then test on a clean PC with only JDK 17 and MySQL installed
 
 ---
 
