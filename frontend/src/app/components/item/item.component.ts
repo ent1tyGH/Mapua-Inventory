@@ -124,31 +124,40 @@ constructor(
 
   // ✅ Search + Filter Logic
   applyFilter(): void {
-    this.filteredItems = this.items.filter((item) => {
-      const matchesSearch =
-        !this.searchText ||
-        item.equipmentType?.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        item.specifications.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        item.location.toLowerCase().includes(this.searchText.toLowerCase());
+    this.filteredItems = this.items
+      // Show disposed only if checkbox is checked
+      .filter(item => item.conditionStatus !== 'DISPOSED' || this.filterDisposed)
+      .filter(item => {
+        const matchesSearch =
+          !this.searchText ||
+          item.equipmentType?.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+          item.specifications.toLowerCase().includes(this.searchText.toLowerCase()) ||
+          item.location.toLowerCase().includes(this.searchText.toLowerCase());
 
-      const matchesAvailability =
-        (!this.showAvailable && !this.showBorrowed) ||
-        (this.showAvailable && !item.borrowed) ||
-        (this.showBorrowed && item.borrowed);
+        const matchesAvailability =
+          (!this.showAvailable && !this.showBorrowed) ||
+          (this.showAvailable && !item.borrowed) ||
+          (this.showBorrowed && item.borrowed);
 
-      const matchesCondition =
-        (!this.filterWorking && !this.filterNeedsRepair && !this.filterDisposed) ||
-        (this.filterWorking && item.conditionStatus === 'WORKING') ||
-        (this.filterNeedsRepair && item.conditionStatus === 'NEEDS_REPAIR') ||
-        (this.filterDisposed && item.conditionStatus === 'DISPOSED');
+        const matchesCondition =
+          (!this.filterWorking && !this.filterNeedsRepair && !this.filterDisposed) ||
+          (this.filterWorking && item.conditionStatus === 'WORKING') ||
+          (this.filterNeedsRepair && item.conditionStatus === 'NEEDS_REPAIR') ||
+          (this.filterDisposed && item.conditionStatus === 'DISPOSED');
 
-      return matchesSearch && matchesAvailability && matchesCondition;
-    });
+        return matchesSearch && matchesAvailability && matchesCondition;
+      });
+
+    // Update the dashboard whenever filters change
+    this.updateDashboard();
   }
 
   // ✅ Dashboard Update Logic
   updateDashboard(): void {
     let filtered = this.items;
+
+    // Dashboard always ignores disposed items
+    filtered = filtered.filter(item => item.conditionStatus !== 'DISPOSED');
 
     // Filter by selected equipment type
     if (this.selectedTypeId && this.selectedTypeId !== 0) {
