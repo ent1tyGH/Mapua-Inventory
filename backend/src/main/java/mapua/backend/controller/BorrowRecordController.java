@@ -94,6 +94,19 @@ public class BorrowRecordController {
         }
     }
 
+    @GetMapping("/borrower/{serialNumber}")
+    public ResponseEntity<List<BorrowRecord>> getBorrowedItemsByBorrowerSerial(@PathVariable String serialNumber) {
+        Borrower borrower = borrowerService.getBorrowerBySerial(serialNumber);
+        if (borrower == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<BorrowRecord> borrowedItems = borrowRecordService
+                .getActiveBorrowRecordsByBorrower(borrower.getId());
+
+        return ResponseEntity.ok(borrowedItems);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBorrowRecord(@PathVariable Long id) {
         borrowRecordService.deleteBorrowRecord(id);

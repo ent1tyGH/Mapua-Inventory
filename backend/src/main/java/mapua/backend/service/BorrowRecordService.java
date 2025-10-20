@@ -56,8 +56,16 @@ public class BorrowRecordService {
         }
 
         item.setBorrowed(false);
-        itemRepository.save(item);
 
+        if (request.getConditionStatus() != null) {
+            item.setConditionStatus(request.getConditionStatus());
+        }
+
+        itemRepository.save(item);
         return borrowRecordRepository.save(record);
+    }
+
+    public List<BorrowRecord> getActiveBorrowRecordsByBorrower(Long borrowerId) {
+        return borrowRecordRepository.findByBorrowerIdAndReturnedAtIsNull(borrowerId);
     }
 }

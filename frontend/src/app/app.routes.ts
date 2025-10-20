@@ -16,5 +16,6 @@ export const routes: Routes = [
   { path: 'reports', component: ReportsComponent },
   { path: 'new-report', component: NewReportComponent },
   { path: 'return', component: ReturnComponent },
-  { path: 'borrow-records', component: BorrowRecordsComponent }
+  { path: 'borrow-records', component: BorrowRecordsComponent },
+  { path: 'return', component: ReturnComponent }
 ];
