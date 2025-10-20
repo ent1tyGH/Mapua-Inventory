@@ -59,10 +59,11 @@ The zip contains:
 
 ### ▶️ Step 3 — Run the App
 After installation:
-1. Double-click run_inventory.bat
+1. Double-click **run_inventory.bat**
 2. The batch file will:
-    1. Check if MySQL is running; start it if needed
-    2. Launch the backend + frontend JAR
+   1. Check if MySQL is running; start it if needed
+   2. Ask you to enter your MySQL Root Password
+   3. Launch the backend + frontend JAR
 3. Open your browser at:
    👉 http://localhost:8080
 
@@ -72,10 +73,16 @@ After installation:
 
 Behind the scenes:
    ```bat
-   @echo off
+  @echo off
 REM --------------------------------------
 REM One-click launcher for Mapua Inventory
 REM --------------------------------------
+
+REM Step 0: Ask for MySQL root password
+set /p MYSQL_PASS=Enter MySQL root password: 
+
+REM Set environment variable for Spring Boot
+set SPRING_DATASOURCE_PASSWORD=%MYSQL_PASS%
 
 REM Step 1: Check if MySQL service is running
 sc query MySQL80 | findstr /I "RUNNING" >nul
