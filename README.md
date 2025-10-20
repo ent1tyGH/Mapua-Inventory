@@ -6,6 +6,7 @@ This version is packaged for Windows with a one-click launcher (.bat), allowing 
 
 Once installed, simply **double-click the batch file** — it will automatically start:
 - MySQL (if not already running)
+  - You will be asked for your root password.
 - The backend server (Spring Boot)
 - The web frontend (Angular build inside Spring Boot)
 
@@ -47,7 +48,6 @@ The zip contains:
 
 - run_inventory.bat → one-click launcher
 - mapua-inventory-1.0.jar → backend + Angular frontend
-- MapuaUniversityLogo.ico → icon
 
 ---
 
@@ -59,14 +59,79 @@ The zip contains:
 
 ### ▶️ Step 3 — Run the App
 After installation:
-1. Double-click **run_inventory.bat**
+1. Double-click run_inventory.bat
 2. The batch file will:
    1. Check if MySQL is running; start it if needed
-   2. Ask you to enter your MySQL Root Password
+   2. Ask for your root password
    3. Launch the backend + frontend JAR
 3. Open your browser at:
    👉 http://localhost:8080
 
+---
+
+## How the One-Click Batch Works
+
+Behind the scenes:
+   ```bat
+   @echo off
+REM --------------------------------------
+REM One-click launcher for Mapua Inventory
+REM --------------------------------------
+
+REM Step 1: Detect and start MySQL service
+setlocal enabledelayedexpansion
+set SERVICE_FOUND=0
+
+for %%S in (MySQL80 MySQL mysql mysql80) do (
+    sc query "%%S" | findstr /I "RUNNING" >nul
+    if !errorlevel! equ 0 (
+        echo MySQL service "%%S" is already running.
+        set SERVICE_FOUND=1
+        set SERVICE_NAME=%%S
+        goto :skipstart
+    )
+)
+
+REM No running service found; try to start first available service
+for %%S in (MySQL80 MySQL mysql mysql80) do (
+    sc query "%%S" >nul 2>&1
+    if !errorlevel! equ 0 (
+        echo Attempting to start MySQL service "%%S"...
+        net start "%%S"
+        if !errorlevel! equ 0 (
+            echo MySQL started successfully.
+            set SERVICE_NAME=%%S
+            set SERVICE_FOUND=1
+            goto :skipstart
+        ) else (
+            echo Could not start "%%S". Trying next service name...
+        )
+    )
+)
+
+:skipstart
+if !SERVICE_FOUND! equ 0 (
+    echo Could not find a MySQL service. Please ensure MySQL is installed as a Windows service.
+    pause
+)
+
+REM Step 2: Prompt for MySQL root password (optional)
+set /p MYSQL_PASS=Enter MySQL root password (leave blank to skip):
+if not "%MYSQL_PASS%"=="" set SPRING_DATASOURCE_PASSWORD=%MYSQL_PASS%
+
+REM Step 3: Launch backend + frontend JAR
+echo Launching Mapua Inventory System...
+java -jar "%~dp0mapua-inventory-1.0.jar"
+
+pause
+endlocal
+
+   ```
+**Developer Notes:**
+
+- %~dp0 ensures the batch uses the folder it resides in, so you can place .bat and .jar together anywhere.
+- SPRING_DATASOURCE_PASSWORD will be picked up by Spring Boot if your application.properties is configured to use ${SPRING_DATASOURCE_PASSWORD}.
+- The pause at the end keeps the console open so you can see logs/errors.
 ---
 
 ## Usage Instructions (PLACEHOLDER)
@@ -82,7 +147,7 @@ After the system opens in your browser:
 
 ## Uninstallation
 To uninstall:
-1. Stop the app and MySQL (`net stop MySQL80` if running)
+1. Stop the app and MySQL (via Task Manager)
 2. Delete the installation folder (e.g., `C:\Program Files\MapuaInventory`)
 
 ---
@@ -92,18 +157,22 @@ To uninstall:
   ```
   application.properties
   ```
-- If you included an embedded JRE, users won’t even need to install JDK.
 
 ---
 
 ## Developer Build Reference (for maintainers)
 If you ever need to rebuild or update the app:
-1. Build your Spring Boot JAR:
+1. Build you Angular project
+    ```bash
+   ng build --configuration production
+   ```
+2. Navigate to **dist/project-name** folder and copy the contents into spring-boot **src/main/resources/static**
+3. Build your Spring Boot JAR:
    ```bash
    mvn clean package
    ```
-2. Place the resulting mapua-inventory-1.0.jar in your launcher folder
-3. Update the batch file if needed, then test on a clean PC with only JDK 17 and MySQL installed
+4. Place the resulting mapua-inventory-1.0.jar in your launcher folder
+5. Update the batch file if needed, then test on a clean PC with only JDK 17 and MySQL installed
 
 ---
 
