@@ -41,7 +41,7 @@ java -version
 ### Step 1 — Download the App
 Download the launcher package:
 
-👉 [Download MapuaInventory.zip](https://example.com/MapuaInventorySetup.exe)
+👉 [Download MapuaInventory.zip](https://github.com/ent1tyGH/Mapua-Inventory/releases/tag/v1.0)
 
 The zip contains:
 
