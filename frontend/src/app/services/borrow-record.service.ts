@@ -24,12 +24,16 @@ export class BorrowRecordService {
     return this.http.post<BorrowRecord>(`${this.apiUrl}`, record);
   }
 
-  returnItem(itemId: number, payload: any) {
-    return this.http.post(`${this.apiUrl}/${itemId}/return`, payload);
-  }
-
   updateBorrowRecord(id: number, record: BorrowRecord): Observable<BorrowRecord> {
     return this.http.put<BorrowRecord>(`${this.apiUrl}/${id}`, record);
+  }
+
+  getBorrowedItemsByBorrowerSerial(serialNumber: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/borrower/${serialNumber}`);
+  }
+
+  returnItem(itemId: number, payload: any) {
+    return this.http.post(`${this.apiUrl}/${itemId}/return`, payload);
   }
 
   deleteBorrowRecord(id: number): Observable<void> {

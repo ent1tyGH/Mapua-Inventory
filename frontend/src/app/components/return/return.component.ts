@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BorrowRecordService } from '../../services/borrow-record.service';
@@ -11,46 +10,53 @@ import { BorrowRecordService } from '../../services/borrow-record.service';
   templateUrl: './return.component.html',
   styleUrls: ['./return.component.css']
 })
-export class ReturnComponent implements OnInit {
-  itemId!: number;
-  serialNumber: string = '';
-  remarks: string = '';
-
+export class ReturnComponent {
+  serialNumber = '';
+  borrowedItems: any[] | null = null;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private borrowRecordService: BorrowRecordService
-  ) {}
+  constructor(private borrowRecordService: BorrowRecordService) {}
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.itemId = +params['itemId'];
+  fetchBorrowedItems() {
+    this.successMessage = this.errorMessage = null;
+    this.borrowRecordService.getBorrowedItemsByBorrowerSerial(this.serialNumber).subscribe({
+      next: (data) => {
+        this.borrowedItems = data;
+        if (!data || data.length === 0) this.errorMessage = 'No borrowed items found.';
+      },
+      error: () => this.errorMessage = 'Error fetching borrowed items.'
     });
   }
 
-  submitReturn() {
+  returnItem(itemId: number) {
+    const remarks = prompt('Enter remarks for this return:');
+    if (remarks === null || remarks.trim() === '') {
+      alert('Return cancelled. Remarks are required.');
+      return;
+    }
+
     const payload = {
-      serialNumber: this.serialNumber, // ✅ keep this for borrower validation
-      remarks: this.remarks
+      serialNumber: this.serialNumber, // ✅ include borrower serial
+      remarks: remarks
     };
 
-    console.log('📤 Sending return request:', {
-        itemId: this.itemId,
-        payload
-      });
-
-    this.borrowRecordService.returnItem(this.itemId, payload).subscribe({
+    this.borrowRecordService.returnItem(itemId, payload).subscribe({
       next: () => {
         alert('Item successfully returned!');
-        this.router.navigate(['/items']);
+        this.borrowedItems = this.borrowedItems?.filter(i => i.item.id !== itemId) || null;
+        if (!this.borrowedItems?.length) this.resetForm();
       },
       error: (err) => {
         console.error('Error returning item:', err);
         alert('Failed to return item. Please try again.');
       }
     });
+  }
+
+  resetForm() {
+    this.serialNumber = '';
+    this.borrowedItems = null;
+    this.successMessage = this.errorMessage = null;
   }
 }

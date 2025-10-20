@@ -60,4 +60,8 @@ public class BorrowRecordService {
 
         return borrowRecordRepository.save(record);
     }
+
+    public List<BorrowRecord> getActiveBorrowRecordsByBorrower(Long borrowerId) {
+        return borrowRecordRepository.findByBorrowerIdAndReturnedAtIsNull(borrowerId);
+    }
 }

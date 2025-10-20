@@ -2,7 +2,6 @@
   <div class="form-card">
     <h2>Return Item</h2>
 
-    <!-- Success/Info message -->
     <div *ngIf="successMessage" class="toast-message success">
       {{ successMessage }}
     </div>
@@ -10,9 +9,9 @@
       {{ errorMessage }}
     </div>
 
-    <!-- Return form -->
-    <form (ngSubmit)="submitReturn()" #returnForm="ngForm">
-      <label for="serialNumber">Serial Number:</label>
+    <!-- Step 1: Tap ID / Enter borrower serial -->
+    <form *ngIf="!borrowedItems" (ngSubmit)="fetchBorrowedItems()" #borrowForm="ngForm">
+      <label for="serialNumber">Borrower Serial Number:</label>
       <input
         id="serialNumber"
         type="text"
@@ -20,20 +19,23 @@
         name="serialNumber"
         required
       />
-
-      <label for="remarks">Remarks:</label>
-      <textarea
-        id="remarks"
-        [(ngModel)]="remarks"
-        name="remarks"
-        rows="4"
-        placeholder="Enter remarks about the return"
-        required
-      ></textarea>
-
-      <button type="submit" class="btn-confirm" [disabled]="returnForm.invalid">
-        Submit Return
+      <button type="submit" class="btn-confirm" [disabled]="borrowForm.invalid">
+        Fetch Borrowed Items
       </button>
     </form>
+
+    <!-- Step 2: Show list of borrowed items -->
+    <div *ngIf="borrowedItems">
+      <h3>Borrowed Items</h3>
+      <ul>
+        <li *ngFor="let record of borrowedItems">
+          <strong>{{ record.item.equipmentType.name }}</strong>
+          <span> (Borrowed at: {{ record.borrowedAt | date:'short' }}) </span>
+          <button (click)="returnItem(record.item.id)">Return</button>
+        </li>
+      </ul>
+
+      <button (click)="resetForm()" class="btn-secondary">← New Return</button>
+    </div>
   </div>
 </div>
