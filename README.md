@@ -134,14 +134,93 @@ endlocal
 - The pause at the end keeps the console open so you can see logs/errors.
 ---
 
-## Usage Instructions (PLACEHOLDER)
-After the system opens in your browser:
-- **Login or Register** to start using the system
-- Navigate between:
-    -  **Inventory List**
-    -  **Borrow Records**
-    -  **Borrow Item**
-- All data is stored in MySQL locally (`inventory_db` by default)
+## Usage Instructions
+
+## 🧭 Table of Contents
+- [👥 For Users](#-for-users)
+- [🛠️ For Admins](#-for-admins)
+- [💾 Database Backup](#-database-backup)
+- [🖥️ System Overview](#-system-overview)
+- [🎨 Design Notes](#-design-notes)
+
+---
+
+## 👥 For Users
+
+### 🔍 Borrowing an Item
+1. Go to the **Item Page**.
+2. **Search** for the item you want to borrow.
+3. **Tap your ID** to check if you’re already registered in the database.
+    - If **you are not in the database**, fill out the following:
+        - 🧑 Name
+        - 🎓 Student ID
+4. Once verified, the **item will be marked as borrowed**.
+
+---
+
+### 🔄 Returning an Item
+1. Go to the **Return Page**.
+2. **Tap your ID** to view all your borrowed items.
+3. Select the item(s) you wish to return.
+4. Fill out the **Return Form**:
+    - 📝 Remarks
+    - ⚙️ Condition (e.g., Good, Slightly Damaged, Broken)
+5. Confirm to complete the return.
+
+> ✅ *Returned items will automatically update in the database.*
+
+---
+
+## 🛠️ For Admins
+
+### 🧾 Managing Equipment
+
+#### ➕ Add Equipment Type
+1. Go to the **Equipment Page**.
+2. Add a new **Equipment Type** (e.g., Camera, Tripod, Laptop, etc.).
+
+#### 🧩 Add Items
+1. Go to the **Item Page**.
+2. Provide the following details:
+    - Select the Equipment type
+    - Specification
+    - Location
+    - Condition (Working, Needs Repair, or Disposed)
+
+> 🗂️ *Each item is linked to an equipment type for easy organization.*
+
+---
+
+### 📅 Daily Reports
+- Navigate to the **Daily Report Page**.
+- Record daily activities such as borrowed items, returns, or maintenance logs.
+
+> 🧮 *Reports help track equipment usage trends and monitor student activity.*
+
+---
+
+## 💾 Database Backup
+- Access the **Backup Option** from the **Navigation Bar**.
+- Click **Backup Database** to save a secure copy of all system data.
+
+---
+
+## 🖥️ System Overview
+- **Frontend:** Angular (modern responsive design)
+- **Backend:** Node.js / Express (REST API)
+- **Database:** MySQL
+- **Theme:** 🟥 Mapúa-inspired color palette with red and gold accents
+
+---
+
+## 🎨 Design Notes
+- Clean, responsive interface for desktop and mobile users.
+- Color-coded indicators:
+    - 🟢 Available items
+    - 🔴 Borrowed items
+    - 🟡 need repair
+- Red text for **unreturned items** for quick visibility.
+- Tables and cards styled for readability and alignment consistency.
 
 ---
 
